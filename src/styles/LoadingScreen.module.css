@@ -1,0 +1,26 @@
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 50px;
+}
+
+.loading h1 {
+    font-size: 72px;
+}
+
+.end * {
+    opacity: 100;
+    animation: disappear 0.3s forwards;
+}
+
+@keyframes disappear {
+    0% {
+        opacity: 100;
+    }
+    100% {
+        opacity: 0;
+    }
+}

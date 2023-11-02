@@ -1,0 +1,193 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../fonts/Poppins-Regular.ttf");
+    font-weight: 400;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    --text-color: #888888;
+    --background-color: #242424;
+
+    font-family: "Poppins", sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    user-select: none;
+}
+
+::selection {
+    color: var(--background-color);
+    background-color: var(--text-color);
+}
+
+::-moz-selection {
+    color: var(--background-color);
+    background-color: var(--text-color);
+}
+
+.sidebar {
+    height: 100vh;
+    width: 200px;
+    padding-left: 52px;
+    padding-right: 52px;
+    border-right: 1px solid #3a3a3a;
+}
+
+h1 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+
+    font-size: 34px;
+    line-height: 51px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    height: 100%;
+    margin-top: 23px;
+}
+
+nav ul div,
+nav ul footer {
+    display: flex;
+    flex-direction: column;
+    gap: 31px;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: 400;
+}
+
+h3 {
+    color: var(--text-color);
+    font-size: 24px;
+    line-height: 35px;
+    font-weight: 400;
+}
+
+nav ul footer {
+    position: absolute;
+    bottom: 40px;
+}
+
+.maincontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+main {
+    /* flex-grow: 1; */
+    width: calc(100vw - 260px - 260px);
+}
+
+li {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideRight 0.3s forwards;
+}
+
+li:nth-child(2) {
+    animation-delay: 0.1s;
+}
+li:nth-child(3) {
+    animation-delay: 0.2s;
+}
+li:nth-child(4) {
+    animation-delay: 0.3s;
+}
+li:nth-child(5) {
+    animation-delay: 0.4s;
+}
+li:nth-child(6) {
+    animation-delay: 0.5s;
+}
+li:nth-child(7) {
+    animation-delay: 0.6s;
+}
+
+li > a {
+    position: relative;
+}
+
+li > a::before {
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform 0.3s;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--text-color);
+    width: 100%;
+    height: 2px;
+    pointer-events: none;
+    content: "";
+}
+
+li > a:hover::before {
+    transform-origin: 0% 50%;
+    transform: scale3d(1, 1, 1);
+}
+
+header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding-top: 32px;
+    align-items: center;
+    justify-content: start;
+
+    overflow: hidden;
+}
+
+header > *:nth-child(2) {
+    margin-left: 20px;
+}
+
+header > * {
+    opacity: 0; /* initial state: hidden */
+    transform: translateX(100%);
+    animation: slideRight 0.3s forwards; /* apply the animation */
+}
+
+header > *:nth-child(3) {
+    position: absolute;
+    right: 0;
+
+    opacity: 100;
+    transform: translateX(100%);
+    animation: slideLeft 0.5s forwards;
+}
+
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

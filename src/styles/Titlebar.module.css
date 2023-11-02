@@ -1,0 +1,52 @@
+.titlebar {
+    height: 32px;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+
+    background-color: transparent;
+    z-index: 1000;
+}
+
+.titlebar > div {
+    position: absolute;
+    right: 0;
+    width: 138px;
+    display: flex;
+    flex-direction: row;
+}
+
+.titlebar > div > div {
+    width: 46px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.titlebar > div > div > img {
+    background-color: transparent;
+}
+
+.titlebar > div > div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar > div > div:last-child:hover {
+    background-color: #e81123;
+    border-top-right-radius: 10px;
+}
+
+.titlebar svg {
+    background: transparent;
+    width: 10px;
+    height: 10px;
+}
+
+.titlebar svg path,
+.titlebar svg rect,
+.titlebar svg polygon {
+    /* fill: #fff; */
+    fill: #888888;
+}

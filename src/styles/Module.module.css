@@ -1,0 +1,22 @@
+.module {
+    padding: 24px;
+    border: solid 1px #3a3a3a;
+    border-radius: 20px;
+    gap: 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.module > div {
+    flex-grow: 1;
+}
+
+.column {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 16px;
+}

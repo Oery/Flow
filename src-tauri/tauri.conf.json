@@ -1,0 +1,59 @@
+{
+    "build": {
+        "beforeDevCommand": "npm run dev",
+        "beforeBuildCommand": "npm run build",
+        "devPath": "http://localhost:1420",
+        "distDir": "../dist",
+        "withGlobalTauri": false
+    },
+    "package": {
+        "productName": "Flow",
+        "version": "0.0.1"
+    },
+    "tauri": {
+        "allowlist": {
+            "all": false,
+            "shell": {
+                "all": false,
+                "open": true
+            },
+            "window": {
+                "all": true
+            }
+        },
+        "bundle": {
+            "active": true,
+            "targets": "all",
+            "identifier": "dev.oery.flow",
+            "publisher": "Oery",
+            "category": "Utility",
+            "icon": [
+                "icons/32x32.png",
+                "icons/128x128.png",
+                "icons/128x128@2x.png",
+                "icons/icon.icns",
+                "icons/icon.ico"
+            ],
+            "shortDescription": "Flow"
+        },
+        "security": {
+            "csp": null
+        },
+        "windows": [
+            {
+                "titleBarStyle": "Overlay",
+                "hiddenTitle": true,
+                "fullscreen": false,
+                "resizable": true,
+                "title": "Flow",
+                "width": 1280,
+                "height": 720,
+                "minHeight": 720,
+                "minWidth": 1280,
+                "decorations": false,
+                "center": true,
+                "visible": false
+            }
+        ]
+    }
+}

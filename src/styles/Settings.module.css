@@ -1,0 +1,53 @@
+.settings {
+    margin-top: 23px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: scroll;
+    height: calc(100vh - 106px);
+
+    scroll-behavior: smooth;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.settings::-webkit-scrollbar {
+    display: none;
+}
+
+.settings > div {
+    opacity: 0; /* initial state: hidden */
+    transform: translateY(100%);
+    animation: slideUp 0.5s forwards; /* apply the animation */
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.settings div:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.settings div:nth-child(3) {
+    animation-delay: 0.2s;
+}
+.settings div:nth-child(4) {
+    animation-delay: 0.3s;
+}
+.settings div:nth-child(5) {
+    animation-delay: 0.4s;
+}
+.settings div:nth-child(6) {
+    animation-delay: 0.5s;
+}
+.settings div:nth-child(7) {
+    animation-delay: 0.6s;
+}
