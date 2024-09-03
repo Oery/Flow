@@ -9,7 +9,7 @@ import { SettingsProvider } from "../components/SettingsContext";
 import { AppProvider } from "../components/AppContext";
 import { useEffect, useState } from "react";
 import LoadingScreen from "../components/LoadingScreen";
-import AsideInfo from "../components/AsideInfos";
+import AsideInfo from "../components/aside/aside-infos";
 import { useTranslation } from "react-i18next";
 import { appWindow } from "@tauri-apps/api/window";
 import { invoke } from "@tauri-apps/api/tauri";
