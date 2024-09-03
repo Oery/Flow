@@ -73,10 +73,12 @@ impl SceneManager {
         info!("[OBS] Showing screen");
         info!("[OBS] Show | Current scene : {:?}", self.current_scene);
 
-        let scene = SceneId::Name(&self.current_scene);
-
         match &self.client {
-            Some(client) => client.scenes().set_current_program_scene(scene).await.map_err(|e| e.to_string()),
+            Some(client) => client
+                .scenes()
+                .set_current_program_scene(&self.current_scene)
+                .await
+                .map_err(|e| e.to_string()),
             None => Err("No client".to_string()),
         }
     }
