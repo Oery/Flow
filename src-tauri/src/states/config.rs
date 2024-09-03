@@ -68,18 +68,21 @@ pub struct Settings {
     pub scenes_auto_obs_config: bool,
 
     pub pack_enable: bool,
+    pub pack_command: String,
     pub pack_command_text: String,
     pub pack_hide_overlay: bool,
     pub pack_announcements_enable: bool,
     pub pack_announcements_text: String,
 
     pub server_enable: bool,
+    pub server_command: String,
     pub server_command_text: String,
     pub server_announcements_enable: bool,
     pub server_announcements_text: String,
 
     pub music_enable: bool,
     pub music_ignore_twitch: bool,
+    pub music_command: String,
     pub music_command_text: String,
     pub music_announcements_enable: bool,
     pub music_announce_text: String,
@@ -113,18 +116,21 @@ impl Default for Settings {
             scenes_auto_obs_config: true,
 
             pack_enable: false,
+            pack_command: "!pack".to_string(),
             pack_command_text: "Resource Pack : {pack}".to_string(),
             pack_hide_overlay: false,
             pack_announcements_enable: true,
             pack_announcements_text: "Resource Pack : {pack}".to_string(),
 
             server_enable: false,
+            server_command: "!ip".to_string(),
             server_command_text: "IP : {server}".to_string(),
             server_announcements_enable: true,
             server_announcements_text: "IP : {server}".to_string(),
 
             music_enable: false,
             music_ignore_twitch: true,
+            music_command: "!music".to_string(),
             music_command_text: "🎵 : {title} - {artist}".to_string(),
             music_announcements_enable: true,
             music_announce_text: "🎵 Now playing : {title} - {artist} 🎵".to_string(),

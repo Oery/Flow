@@ -9,6 +9,7 @@ import styles from "../styles/Settings.module.css";
 import { useAppContext } from "../components/AppContext";
 import AliasInput from "../components/ui/alias-input";
 import { invoke } from "@tauri-apps/api";
+import { hasBotFeature } from "../utils/bot-features";
 
 export default function PackPage() {
     const { t } = useTranslation();
@@ -24,6 +25,12 @@ export default function PackPage() {
             </header>
 
             <div className={styles.settings}>
+                {hasBotFeature(settings.twitch_bot as string, "custom_commands") && (
+                    <Module title={t("Command")} column={true}>
+                        <TextInput group="packs" setting="pack_command" placeholder="!pack" />
+                    </Module>
+                )}
+
                 <Module title={t("Command Text")} column={true}>
                     <TextInput
                         group="packs"

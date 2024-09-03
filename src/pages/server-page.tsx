@@ -8,6 +8,7 @@ import { useSettings } from "../components/SettingsContext";
 import styles from "../styles/Settings.module.css";
 import AliasInput from "../components/ui/alias-input";
 import { useAppContext } from "../components/AppContext";
+import { hasBotFeature } from "../utils/bot-features";
 
 export default function ServerPage() {
     const { t } = useTranslation();
@@ -23,6 +24,12 @@ export default function ServerPage() {
             </header>
 
             <div className={styles.settings}>
+                {hasBotFeature(settings.twitch_bot as string, "custom_commands") && (
+                    <Module title={t("Command")} column={true}>
+                        <TextInput group="servers" setting="server_command" placeholder="!ip" />
+                    </Module>
+                )}
+
                 <Module title={t("Command Text")} column={true}>
                     <TextInput
                         group="servers"

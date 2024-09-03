@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "../styles/Settings.module.css";
 import { useSettings } from "../components/SettingsContext";
+import { hasBotFeature } from "../utils/bot-features";
 
 export default function MusicPage() {
     const { t } = useTranslation();
@@ -20,6 +21,12 @@ export default function MusicPage() {
             </header>
 
             <div className={styles.settings}>
+                {hasBotFeature(settings.twitch_bot as string, "custom_commands") && (
+                    <Module title={t("Command")} column={true}>
+                        <TextInput setting="music_command" placeholder="!music" />
+                    </Module>
+                )}
+
                 <Module title={t("Command Text")} column={true}>
                     <TextInput setting="music_command_text" placeholder="🎵 : {title} - {artist}" />
                 </Module>
