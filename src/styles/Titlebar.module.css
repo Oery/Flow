@@ -10,13 +10,22 @@
 
 .titlebar > div {
     position: absolute;
+    top: 6px;
+    height: 26px;
+    width: 100vw;
+    background-color: transparent;
+}
+
+.buttons {
+    position: absolute;
+    top: -6px;
     right: 0;
     width: 138px;
     display: flex;
     flex-direction: row;
 }
 
-.titlebar > div > div {
+.buttons > div {
     width: 46px;
     height: 32px;
     display: flex;
@@ -25,15 +34,15 @@
     transition: all 0.3s ease-in-out;
 }
 
-.titlebar > div > div > img {
+.buttons > div > img {
     background-color: transparent;
 }
 
-.titlebar > div > div:hover {
+.buttons > div:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.titlebar > div > div:last-child:hover {
+.buttons > div:last-child:hover {
     background-color: #e81123;
     border-top-right-radius: 10px;
 }
