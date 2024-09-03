@@ -193,6 +193,11 @@ pub fn get_logs_path() -> Result<String, Box<dyn Error>> {
     Ok(format!("{}\\Flow - Streaming Utility\\flow.log", app_data))
 }
 
+pub fn get_flow_path() -> Result<String, Box<dyn Error>> {
+    let app_data = env::var("APPDATA")?;
+    Ok(format!("{}\\Flow - Streaming Utility", app_data))
+}
+
 macro_rules! check_default {
     ($settings:expr, $field:ident, $default:expr) => {
         if $settings.$field == $default.$field {

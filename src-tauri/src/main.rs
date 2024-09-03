@@ -5,7 +5,10 @@ use crate::states::config::SettingsState;
 use bots::bot_manager;
 use bots::bot_manager::BotState;
 use log::info;
-use states::{config::get_logs_path, context::AppState};
+use states::{
+    config::{get_flow_path, get_logs_path},
+    context::AppState,
+};
 use tauri::{CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, WindowEvent};
 use tauri_plugin_autostart::MacosLauncher;
 use window_shadows::set_shadow;
@@ -15,7 +18,7 @@ mod log_process;
 mod log_reader;
 mod mc_client;
 mod windows_media;
-use std::env;
+use std::{env, error::Error, path::Path};
 
 use crate::modules::auto_queuing_scene::scene_manager::SceneState;
 
@@ -27,6 +30,15 @@ mod states;
 mod tailer;
 
 use fern::colors::{Color, ColoredLevelConfig};
+
+fn setup_flow_path() -> Result<(), Box<dyn Error>> {
+    let flow_path = get_flow_path()?;
+    if !Path::new(&flow_path).exists() {
+        std::fs::create_dir_all(flow_path)?;
+    }
+
+    Ok(())
+}
 
 fn setup_logging() -> Result<(), fern::InitError> {
     let colors = ColoredLevelConfig::new().info(Color::Green).warn(Color::Yellow).error(Color::Red);
@@ -49,6 +61,7 @@ fn setup_logging() -> Result<(), fern::InitError> {
 }
 
 fn main() {
+    setup_flow_path().unwrap();
     setup_logging().unwrap();
 
     info!("[MAIN] Starting Flow...");
