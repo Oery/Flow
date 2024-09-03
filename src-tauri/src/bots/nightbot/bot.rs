@@ -90,11 +90,6 @@ impl TwitchBot for Nightbot {
         Ok(())
     }
 
-    // TODO
-    fn announce(&self, _announcement: String) -> Result<(), Box<dyn Error>> {
-        Ok(())
-    }
-
     async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
         let command = self.prefix.clone() + command;
         let commands = self.get_commands().await?;

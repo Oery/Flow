@@ -8,8 +8,10 @@ use super::structs::{IngameStatus, Streamer};
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Context {
     pub streamer: Streamer,
+    pub custom_bot: Streamer,
     pub twitch_access_token: String,
     pub nightbot_access_token: String,
+    pub custom_bot_token: String,
     pub client: String,
     pub obs_status: String,
     pub bot_status: String,
@@ -27,8 +29,10 @@ impl Default for Context {
     fn default() -> Self {
         Self {
             streamer: Streamer::default(),
+            custom_bot: Streamer::default(),
             twitch_access_token: "".to_string(),
             nightbot_access_token: "".to_string(),
+            custom_bot_token: "".to_string(),
             client: "?".to_string(),
             obs_status: "Offline".to_string(),
             bot_status: "Offline".to_string(),

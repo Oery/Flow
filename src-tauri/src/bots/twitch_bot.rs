@@ -5,7 +5,6 @@ use std::error::Error;
 pub trait TwitchBot: Send + Sync {
     fn get_name(&self) -> &str;
     async fn initialize(&self) -> Result<(), Box<dyn Error>>;
-    fn announce(&self, announcement: String) -> Result<(), Box<dyn Error>>;
     async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>>;
 }
 
@@ -23,9 +22,7 @@ impl TwitchBot for DefaultBot {
     async fn initialize(&self) -> Result<(), Box<dyn Error>> {
         Ok(())
     }
-    fn announce(&self, _announcement: String) -> Result<(), Box<dyn Error>> {
-        Ok(())
-    }
+
     async fn update_command(&self, _command: &str, _value: &str) -> Result<(), Box<dyn Error>> {
         Ok(())
     }

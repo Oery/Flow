@@ -16,9 +16,8 @@ pub struct Wizebot {
 
 impl Wizebot {
     pub fn new() -> Result<Self, Box<dyn Error>> {
-        let api_key = get_token(&Service::WizeBot)?;
         Ok(Self {
-            api_key,
+            api_key: get_token(&Service::WizeBot)?,
             client: Client::new(),
             cache: Mutex::new(HashMap::new()),
         })
@@ -29,11 +28,6 @@ impl Wizebot {
 impl TwitchBot for Wizebot {
     fn get_name(&self) -> &str {
         "wizebot"
-    }
-
-    fn announce(&self, _announcement: String) -> Result<(), Box<dyn Error>> {
-        // TODO Feature not supported
-        Ok(())
     }
 
     async fn initialize(&self) -> Result<(), Box<dyn Error>> {

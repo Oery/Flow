@@ -2,7 +2,7 @@ use reqwest::Result;
 use serde::Serialize;
 use tauri::AppHandle;
 
-use crate::states::context::read_context;
+use crate::states::{config::read_settings, context::read_context};
 
 // enum Color {
 //     Blue,
@@ -20,13 +20,16 @@ struct Announcement {
 
 pub async fn announce(app: &AppHandle, message: String) -> Result<()> {
     let context = read_context(app).await;
+    let channel_id = context.streamer.id.clone();
 
-    let user_id = context.streamer.id.clone();
-    let token = context.twitch_access_token.clone();
+    let [token, moderator_id] = match read_settings(app).await.twitch_bot.as_str() {
+        "custom" => [context.custom_bot_token.clone(), context.custom_bot.id.clone()],
+        _ => [context.twitch_access_token.clone(), context.streamer.id.clone()],
+    };
 
     let url = format!(
         "https://api.twitch.tv/helix/chat/announcements?broadcaster_id={}&moderator_id={}",
-        user_id, user_id
+        channel_id, moderator_id
     );
 
     reqwest::Client::new()
