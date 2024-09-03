@@ -30,9 +30,15 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
         );
     };
 
+    const handlePreview = (input: string) => {
+        if (setting.endsWith("_text")) {
+            updatePreview(input);
+        }
+    };
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateSetting(setting, event.target.value);
-        updatePreview(event.target.value);
+        handlePreview(event.target.value);
 
         if (debounceTimeout) clearTimeout(debounceTimeout);
 
@@ -55,7 +61,7 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
                 value={settings[setting] as string}
                 onChange={handleChange}
                 onBlur={() => setPreview("")}
-                onFocus={(event) => updatePreview(event.target.value)}
+                onFocus={(event) => handlePreview(event.target.value)}
             />
             {preview && <p>{preview}</p>}
         </>
