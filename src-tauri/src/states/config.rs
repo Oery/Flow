@@ -66,6 +66,8 @@ pub struct Settings {
     pub scenes_hide_in_lobby: bool,
     pub scenes_toggle_after_game_end: bool,
     pub scenes_auto_obs_config: bool,
+    pub scenes_obs_ws_port: u16,
+    pub scenes_obs_ws_password: String,
 
     pub pack_enable: bool,
     pub pack_command: String,
@@ -114,6 +116,8 @@ impl Default for Settings {
             scenes_delay: 3,
             scenes_toggle_after_game_end: true,
             scenes_auto_obs_config: true,
+            scenes_obs_ws_port: 4455,
+            scenes_obs_ws_password: "".to_string(),
 
             pack_enable: false,
             pack_command: "!pack".to_string(),
