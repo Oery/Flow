@@ -13,17 +13,48 @@ edition = "2021"
 tauri-build = { version = "1.4", features = [] }
 
 [dependencies]
-tauri = { version = "1.4", features = [ "window-all", "shell-open"] }
+tauri = { version = "1.4", features = [ "system-tray", "window-all", "shell-open"] }
 serde = { version = "1.0", features = ["derive"] }
-windows = {version = "0.51.1", features = ["Media_Control", "Foundation", "Security_Credentials", "Foundation_Collections"] }
 serde_json = "1.0.107"
 window-shadows = "0.2.1"
 futures = "0.3.28"
 tauri-plugin-oauth = "0.0.0-alpha.0"
+tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+tauri-plugin-autostart = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 url = "2.4.1"
-http = "0.2.9"
-reqwest = { version = "0.11.20", features = ["json", "blocking"] }
-tokio = "1.32.0"
+http = "1.1.0"
+reqwest = { version = "0.12.2", features = ["json", "blocking"] }
+tokio = { version = "1.37.0", features = ["full"] }
+lazy_static = "1.4"
+thiserror = "1.0.50"
+encoding_rs_io = "0.1.7"
+encoding_rs = "0.8.33"
+regex = "1.10.2"
+obws = "0.11.5"
+anyhow = "1.0.81"
+notify = "6.1.1"
+async-trait = "0.1.79"
+fmt = "0.1.0"
+clippy = "0.0.302"
+tide = "0.16.0"
+hyper = { version = "1.2.0", features = ["full"] }
+indexmap = { version = "2.2.6", features = ["serde"] }
+log = "0.4.22"
+pretty_env_logger = "0.5.0"
+fern = { version = "0.6.2", features = ["colored"] }
+chrono = "0.4.38"
+
+[dependencies.windows]
+version = "0.54.0"
+features = [
+    "Media_Control",
+    "Foundation",
+    "Foundation_Collections",
+    "Security_Credentials",
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
+]
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

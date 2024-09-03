@@ -1,34 +1,41 @@
-use futures::executor::block_on;
 use std::error::Error;
 use windows::Media::Control::{
-    GlobalSystemMediaTransportControlsSession, GlobalSystemMediaTransportControlsSessionManager,
-    GlobalSystemMediaTransportControlsSessionMediaProperties,
+    GlobalSystemMediaTransportControlsSession as ControlsSession, GlobalSystemMediaTransportControlsSessionManager as SessionManager,
+    GlobalSystemMediaTransportControlsSessionMediaProperties as MediaProperties,
+    GlobalSystemMediaTransportControlsSessionPlaybackStatus as PlaybackStatus,
 };
 
-fn get_current_session(
-    session_manager: &GlobalSystemMediaTransportControlsSessionManager,
-) -> Result<GlobalSystemMediaTransportControlsSession, Box<dyn Error>> {
+fn get_current_session(session_manager: &SessionManager) -> Result<ControlsSession, Box<dyn Error>> {
     let session = session_manager.GetCurrentSession()?;
     Ok(session)
 }
 
-fn get_session_info(
-    session: &GlobalSystemMediaTransportControlsSession,
-) -> Result<GlobalSystemMediaTransportControlsSessionMediaProperties, Box<dyn Error>> {
-    let result = session.TryGetMediaPropertiesAsync()?;
-    let session_info = block_on(result)?;
+async fn get_session_info(session: &ControlsSession) -> Result<MediaProperties, Box<dyn Error>> {
+    let session_info = session.TryGetMediaPropertiesAsync()?.await?;
     Ok(session_info)
 }
 
-#[tauri::command]
-pub fn get_current_song() -> String {
-    let async_operation = GlobalSystemMediaTransportControlsSessionManager::RequestAsync().unwrap();
-    let session_manager: GlobalSystemMediaTransportControlsSessionManager =
-        block_on(async_operation).unwrap();
+pub struct MusicInfo {
+    pub title: String,
+    pub artist: String,
+}
 
-    let current_session = get_current_session(&session_manager).unwrap();
-    let session_info = get_session_info(&current_session).unwrap();
+pub async fn get_current_song() -> Result<MusicInfo, Box<dyn Error>> {
+    let session_manager = SessionManager::RequestAsync()?.await?;
 
-    let title = session_info.Title().unwrap();
-    title.to_string().into()
+    let current_session = get_current_session(&session_manager)?;
+    let session_info = get_session_info(&current_session).await?;
+
+    Ok(MusicInfo {
+        title: session_info.Title()?.to_string(),
+        artist: session_info.Artist()?.to_string(),
+    })
+}
+
+pub async fn is_media_paused() -> Result<bool, Box<dyn Error>> {
+    let session_manager = SessionManager::RequestAsync()?.await?;
+    let current_session = get_current_session(&session_manager)?;
+    let playback_status = current_session.GetPlaybackInfo()?.PlaybackStatus()?;
+
+    Ok(playback_status == PlaybackStatus::Paused)
 }

@@ -1,5 +1,5 @@
-import Spinner from "./Spinner";
-import Titlebar from "./TitleBar";
+import Spinner from "./ui/spinner";
+import Titlebar from "./title-bar";
 
 import styles from "../styles/LoadingScreen.module.css";
 import LoginModal from "./LoginModal";
@@ -11,15 +11,18 @@ interface Props {
     isLoading: boolean;
 }
 
-export default function LoadingScreen({ isLoading }: Props) {
+export default function LoadingScreen({ isLoading }: Readonly<Props>) {
     const modal = useRef<HTMLDialogElement | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     useEffect(() => {
-        listen("logging-in", (event: Event<boolean>) => {
-            console.log("Is Logging In Event fired", event.payload);
+        const unlisten = listen("logging-in", (event: Event<boolean>) => {
             setIsLoggedIn(event.payload);
         });
+
+        return () => {
+            unlisten.then((f) => f());
+        };
     }, []);
 
     useEffect(() => {

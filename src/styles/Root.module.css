@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Poppins";
-    src: url("../fonts/Poppins-Regular.ttf");
+    src: url("../assets/fonts/Poppins-Regular.ttf");
     font-weight: 400;
 }
 
@@ -60,6 +60,7 @@ nav ul footer {
 
 nav ul li {
     list-style: none;
+    width: fit-content;
 }
 
 nav ul li a {
@@ -84,11 +85,51 @@ nav ul footer {
     flex-direction: row;
     justify-content: space-between;
     gap: 30px;
+    overflow: hidden;
 }
 
 main {
-    /* flex-grow: 1; */
+    flex-grow: 0;
+    transition: flex-grow 0.3s ease-in-out;
     width: calc(100vw - 260px - 260px);
+    /* overflow-y: scroll; */
+}
+
+aside {
+    flex-grow: 0;
+    transition: flex-grow 0.3s ease-in-out;
+}
+
+@media (max-width: 1240px) {
+    .maincontainer {
+        justify-content: left;
+    }
+    main {
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: 895px) {
+    aside {
+        display: none;
+    }
+    main {
+        margin-right: 30px;
+    }
+}
+
+p {
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 li {
@@ -190,4 +231,21 @@ header > *:nth-child(3) {
         transform: translateX(0);
         opacity: 1;
     }
+}
+
+button {
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: solid 1px #3a3a3a;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #3a3a3a;
+    color: #fff;
+}
+
+button:focus-visible {
+    outline: none;
 }

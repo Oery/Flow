@@ -30,3 +30,12 @@
 ::-ms-reveal {
     display: none;
 }
+
+.small {
+    height: 40px;
+    font-size: 20px;
+    border-radius: 10px;
+    width: 50%;
+    padding-left: 16px;
+    padding-right: 16px;
+}

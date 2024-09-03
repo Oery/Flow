@@ -13,6 +13,20 @@
     animation: slideUp 0.5s forwards; /* apply the animation */
 }
 
+@media (max-width: 1240px) {
+    .home {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+}
+
+/* @media (max-width: 1024px) {
+    .home {
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+    }
+} */
+
 @keyframes slideUp {
     from {
         transform: translateY(100%);
@@ -32,4 +46,22 @@
 }
 .home > div:nth-child(4) {
     animation-delay: 0.3s;
+}
+.home > div:nth-child(5) {
+    animation-delay: 0.4s;
+}
+.home > div:nth-child(6) {
+    animation-delay: 0.5s;
+}
+.home > div:nth-child(7) {
+    animation-delay: 0.6s;
+}
+.home > div:nth-child(8) {
+    animation-delay: 0.7s;
+}
+.home > div:nth-child(9) {
+    animation-delay: 0.8s;
+}
+.home > div:nth-child(10) {
+    animation-delay: 0.9s;
 }

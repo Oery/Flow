@@ -41,11 +41,21 @@
 }
 
 .content {
-    max-width: 60vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
+    gap: 10px;
+    /* max-width: 40vw; */
+    width: 450px;
     padding: 24px;
     border: solid 1px #3a3a3a;
     border-radius: 20px;
+}
+
+.content button {
+    margin-top: 10px;
+    align-self: center;
 }
 
 .modal:focus-visible {

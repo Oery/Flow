@@ -1,5 +1,6 @@
 .settings {
     margin-top: 23px;
+    padding-bottom: 23px;
 
     display: flex;
     flex-direction: column;

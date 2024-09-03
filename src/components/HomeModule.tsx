@@ -8,7 +8,7 @@ interface Props {
     link: string;
 }
 
-export default function HomeModule({ title, link, module }: Props) {
+export default function HomeModule({ title, link, module }: Readonly<Props>) {
     const { settings, updateSetting } = useSettings();
 
     const handleClick = () => {
