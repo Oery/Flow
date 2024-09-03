@@ -46,15 +46,8 @@ function SettingsPage() {
                     <ToggleButton
                         setting="start_with_windows"
                         callback={(value) => {
-                            if (value === false) {
-                                disable().then(() => {
-                                    console.log("Start with Windows enabled");
-                                });
-                            } else {
-                                enable().then(() => {
-                                    console.log("Start with Windows disabled");
-                                });
-                            }
+                            const task = value ? disable() : enable();
+                            task.then(() => console.log("Start with Windows changed to", value));
                         }}
                     />
                 </Module>
