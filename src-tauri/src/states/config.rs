@@ -231,10 +231,13 @@ impl Settings {
         settings.custom_logs_path = check_default!(self, custom_logs_path, default);
         settings.twitch_bot = check_default!(self, twitch_bot, default);
         settings.scenes_name = check_default!(self, scenes_name, default);
+        settings.pack_command = check_default!(self, pack_command, default);
         settings.pack_command_text = check_default!(self, pack_command_text, default);
         settings.pack_announcements_text = check_default!(self, pack_announcements_text, default);
+        settings.server_command = check_default!(self, server_command, default);
         settings.server_command_text = check_default!(self, server_command_text, default);
         settings.server_announcements_text = check_default!(self, server_announcements_text, default);
+        settings.music_command = check_default!(self, music_command, default);
         settings.music_command_text = check_default!(self, music_command_text, default);
         settings.music_announce_text = check_default!(self, music_announce_text, default);
 
@@ -248,10 +251,13 @@ impl Settings {
         replace_empty_with_default!(self, custom_logs_path, default);
         replace_empty_with_default!(self, twitch_bot, default);
         replace_empty_with_default!(self, scenes_name, default);
+        replace_empty_with_default!(self, pack_command, default);
         replace_empty_with_default!(self, pack_command_text, default);
         replace_empty_with_default!(self, pack_announcements_text, default);
+        replace_empty_with_default!(self, server_command, default);
         replace_empty_with_default!(self, server_command_text, default);
         replace_empty_with_default!(self, server_announcements_text, default);
+        replace_empty_with_default!(self, music_command, default);
         replace_empty_with_default!(self, music_command_text, default);
         replace_empty_with_default!(self, music_announce_text, default);
     }
