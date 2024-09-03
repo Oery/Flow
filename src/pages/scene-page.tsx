@@ -62,9 +62,9 @@ export default function ScenePage() {
 
                 {!settings.scenes_auto_obs_config && (
                     <Module title={[t("Websocket Host"), t("Websocket Password")]} column={true}>
-                        <TextInput setting="websocket-host" placeholder="127.0.0.1" />
+                        <TextInput setting="scenes_obs_ws_port" placeholder="4455" />
                         <TextInput
-                            setting="websocket-password"
+                            setting="scenes_obs_ws_password"
                             password={true}
                             placeholder="password1234"
                         />
