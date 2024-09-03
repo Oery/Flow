@@ -2,7 +2,7 @@ use crate::log_reader::LogReader;
 use crate::mc_client::{get_current_client, Client, CLIENT_NOT_FOUND};
 use crate::modules::auto_queuing_scene::scene_manager::SceneState;
 use crate::modules::music::Music;
-use crate::states::config::SettingsState;
+use crate::states::config::{read_settings, SettingsState};
 use crate::states::context::{update_context, AppState};
 use log::{debug, error, info};
 use std::sync::Arc;
@@ -21,7 +21,9 @@ pub async fn connect_to_obs(app: &AppHandle) {
         return;
     }
 
-    let task = time::timeout(Duration::from_secs(1), scene_manager.connect()).await;
+    let settings = read_settings(app).await;
+    let task = time::timeout(Duration::from_secs(1), scene_manager.connect(&settings)).await;
+
     let status = match task {
         Ok(Ok(_)) => "Online",
         Ok(Err(e)) => {
