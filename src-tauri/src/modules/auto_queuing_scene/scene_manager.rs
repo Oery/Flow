@@ -1,10 +1,13 @@
-use log::{error, info};
-use obws::{requests::scenes::SceneId, responses::scenes::Scenes, Client};
+use log::{debug, error, info};
+use obws::{responses::scenes::Scenes, Client};
 use std::{sync::Arc, time::Duration};
-use tauri::{AppHandle, State};
+use tauri::{AppHandle, Manager, State};
 use tokio::{sync::RwLock, time};
 
-use crate::states::context::update_context;
+use crate::states::{
+    config::{read_settings, Settings},
+    context::update_context,
+};
 
 use super::socket_config::SocketConfig;
 
@@ -21,9 +24,16 @@ impl SceneManager {
         }
     }
 
-    pub async fn connect(&mut self) -> Result<(), String> {
-        let mut socket_config = SocketConfig::new();
-        socket_config.fetch_socket_config().map_err(|e| e.to_string())?;
+    pub async fn connect(&mut self, settings: &Settings) -> Result<(), String> {
+        let socket_config = match settings.scenes_auto_obs_config {
+            true => SocketConfig::load(&settings.scenes_obs_config_path).map_err(|e| e.to_string())?,
+            false => SocketConfig {
+                enabled: true,
+                port: settings.scenes_obs_ws_port,
+                auth_required: !settings.scenes_obs_ws_password.is_empty(),
+                password: settings.scenes_obs_ws_password.clone(),
+            },
+        };
 
         info!("[OBS] Attempting to connect...");
 
@@ -39,16 +49,21 @@ impl SceneManager {
                 info!("[OBS] Online");
                 Ok(())
             }
-            Ok(Err(e)) => Err(e.to_string()), // If the connection fails but within the timeout
+            Ok(Err(e)) => {
+                error!("[OBS] Error while connecting to OBS : {}", e);
+                Err(e.to_string())
+            } // If the connection fails but within the timeout
             Err(_timeout) => Err("Connection attempt timed out".into()), // If the operation times out
         }
     }
 
-    pub async fn get_scenes_list(&mut self) -> Result<Scenes, String> {
+    pub async fn get_scenes_list(&mut self, app: &AppHandle) -> Result<Scenes, String> {
+        let settings = read_settings(app).await;
+
         match &self.client {
             Some(client) => client.scenes().list().await.map_err(|e| e.to_string()),
             None => {
-                self.connect().await?;
+                self.connect(&settings).await?;
                 Err("Missing client".to_string())
             }
         }
@@ -59,8 +74,12 @@ impl SceneManager {
 
         if let Some(client) = &self.client {
             let current_scene = client.scenes().current_program_scene().await?;
-            if current_scene.id.name != scene {
-                self.current_scene = current_scene.id.name;
+            debug!("[OBS] Current scene : {:?}", current_scene);
+            debug!("[OBS] Scene : {:?}", scene);
+
+            if current_scene != scene {
+                info!("[OBS] Current scene is not the same as the one we want to hide");
+                self.current_scene = current_scene;
             }
 
             client.scenes().set_current_program_scene(scene).await?;
@@ -100,7 +119,7 @@ impl SceneState {
 #[tauri::command]
 pub async fn get_scenes_list(state: State<'_, SceneState>, app: AppHandle) -> Result<Scenes, String> {
     let mut scene_manager = state.scene_manager.write().await;
-    let result = scene_manager.get_scenes_list().await;
+    let result = scene_manager.get_scenes_list(&app).await;
 
     if let Err(e) = &result {
         error!("[OBS] Error while getting scenes list : {}", e);
@@ -119,7 +138,9 @@ pub async fn connect_to_obs(scene_state: State<'_, SceneState>, app: AppHandle) 
         return Ok(());
     }
 
-    if let Err(e) = scene_manager.connect().await {
+    let settings = read_settings(&app).await;
+
+    if let Err(e) = scene_manager.connect(&settings).await {
         error!("[OBS] Error while connecting to OBS : {}", e);
         update_context("obs_status", serde_json::json!("Offline"), &app).await;
         return Err(e.to_string());
