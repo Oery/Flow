@@ -51,6 +51,15 @@ export default function ScenePage() {
                     <ToggleButton setting="scenes_auto_obs_config" />
                 </Module>
 
+                {settings.scenes_auto_obs_config && (
+                    <Module title={t("OBS Config Path")} column={true}>
+                        <TextInput
+                            setting="scenes_obs_config_path"
+                            placeholder="%APPDATA%\obs-studio"
+                        />
+                    </Module>
+                )}
+
                 {!settings.scenes_auto_obs_config && (
                     <Module title={[t("Websocket Host"), t("Websocket Password")]} column={true}>
                         <TextInput setting="websocket-host" placeholder="127.0.0.1" />

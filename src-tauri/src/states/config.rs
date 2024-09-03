@@ -68,6 +68,7 @@ pub struct Settings {
     pub scenes_auto_obs_config: bool,
     pub scenes_obs_ws_port: u16,
     pub scenes_obs_ws_password: String,
+    pub scenes_obs_config_path: String,
 
     pub pack_enable: bool,
     pub pack_command: String,
@@ -118,6 +119,7 @@ impl Default for Settings {
             scenes_auto_obs_config: true,
             scenes_obs_ws_port: 4455,
             scenes_obs_ws_password: "".to_string(),
+            scenes_obs_config_path: "%APPDATA%\\obs-studio".to_string(),
 
             pack_enable: false,
             pack_command: "!pack".to_string(),
@@ -235,6 +237,7 @@ impl Settings {
         settings.custom_logs_path = check_default!(self, custom_logs_path, default);
         settings.twitch_bot = check_default!(self, twitch_bot, default);
         settings.scenes_name = check_default!(self, scenes_name, default);
+        settings.scenes_obs_config_path = check_default!(self, scenes_obs_config_path, default);
         settings.pack_command = check_default!(self, pack_command, default);
         settings.pack_command_text = check_default!(self, pack_command_text, default);
         settings.pack_announcements_text = check_default!(self, pack_announcements_text, default);
@@ -255,6 +258,7 @@ impl Settings {
         replace_empty_with_default!(self, custom_logs_path, default);
         replace_empty_with_default!(self, twitch_bot, default);
         replace_empty_with_default!(self, scenes_name, default);
+        replace_empty_with_default!(self, scenes_obs_config_path, default);
         replace_empty_with_default!(self, pack_command, default);
         replace_empty_with_default!(self, pack_command_text, default);
         replace_empty_with_default!(self, pack_announcements_text, default);
