@@ -34,9 +34,8 @@ fn setup_logging() -> Result<(), fern::InitError> {
     fern::Dispatch::new()
         .format(move |out, message, record| {
             out.finish(format_args!(
-                "{}[{}][{}] {}",
-                chrono::Local::now().format("[%Y-%m-%d][%H:%M:%S]"),
-                record.target(),
+                "{}[{}]{}",
+                chrono::Local::now().format("[%H:%M:%S]"),
                 colors.color(record.level()),
                 message
             ))
