@@ -1,5 +1,5 @@
 use log::{error, info};
-use obws::{responses::scenes::Scenes, Client};
+use obws::{requests::scenes::SceneId, responses::scenes::Scenes, Client};
 use std::{sync::Arc, time::Duration};
 use tauri::{AppHandle, State};
 use tokio::{sync::RwLock, time};
@@ -59,8 +59,8 @@ impl SceneManager {
 
         if let Some(client) = &self.client {
             let current_scene = client.scenes().current_program_scene().await?;
-            if current_scene != scene {
-                self.current_scene = current_scene;
+            if current_scene.id.name != scene {
+                self.current_scene = current_scene.id.name;
             }
 
             client.scenes().set_current_program_scene(scene).await?;
@@ -73,12 +73,10 @@ impl SceneManager {
         info!("[OBS] Showing screen");
         info!("[OBS] Show | Current scene : {:?}", self.current_scene);
 
+        let scene = SceneId::Name(&self.current_scene);
+
         match &self.client {
-            Some(client) => client
-                .scenes()
-                .set_current_program_scene(&self.current_scene)
-                .await
-                .map_err(|e| e.to_string()),
+            Some(client) => client.scenes().set_current_program_scene(scene).await.map_err(|e| e.to_string()),
             None => Err("No client".to_string()),
         }
     }
