@@ -25,7 +25,9 @@ impl ChatEvent {
             .contains(" [Client thread/INFO]: [CHAT] A kick occurred in your connection, so you were put in the Bed Wars lobby!")
         {
             Some(ChatEvent::ServerKick)
-        } else if name.contains(" [Client thread/INFO]: [CHAT]                                      ") {
+        } else if name.contains(" [Client thread/INFO]: [CHAT]                                      ")
+            || name.contains(" [Client thread/INFO]: [CHAT]                          ")
+        {
             Some(ChatEvent::LobbyBlank1)
         } else if name.contains(" [Client thread/INFO]: [CHAT] Sending you to mini") {
             Some(ChatEvent::NewGame1)
