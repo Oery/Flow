@@ -122,6 +122,7 @@ fn main() {
         log_process::hide_overlay,
         modules::auto_queuing_scene::scene_manager::get_scenes_list,
         modules::auto_queuing_scene::scene_manager::connect_to_obs,
+        modules::auto_queuing_scene::scene_manager::disconnect_from_obs,
     ]);
     info!("[MAIN] Tauri commands generated");
 

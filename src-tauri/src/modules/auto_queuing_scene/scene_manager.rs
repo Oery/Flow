@@ -127,3 +127,16 @@ pub async fn connect_to_obs(scene_state: State<'_, SceneState>, app: AppHandle) 
 
     Ok(())
 }
+
+#[tauri::command]
+pub async fn disconnect_from_obs(app: AppHandle) -> Result<(), String> {
+    let state = app.state::<SceneState>().clone();
+    let mut scene_manager = state.scene_manager.write().await;
+    scene_manager.client = None;
+
+    info!("[OBS] Disconnected from OBS");
+
+    update_context("obs_status", serde_json::json!("Offline"), &app).await;
+
+    Ok(())
+}
