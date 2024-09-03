@@ -20,7 +20,6 @@ window-shadows = "0.2.1"
 futures = "0.3.28"
 tauri-plugin-oauth = "0.0.0-alpha.0"
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
-tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-autostart = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 url = "2.4.1"
 http = "1.1.0"

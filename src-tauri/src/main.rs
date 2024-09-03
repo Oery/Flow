@@ -81,10 +81,7 @@ fn main() {
     info!("[MAIN] Autostart plugin loaded");
 
     // Single Instance
-    builder = builder.plugin(tauri_plugin_single_instance::init(|app, _, _| {
-        app.get_window("main").unwrap().show().unwrap();
-    }));
-    info!("[MAIN] Single Instance plugin loaded");
+    // TODO: Fix single instance
 
     // Managed States
     builder = builder
