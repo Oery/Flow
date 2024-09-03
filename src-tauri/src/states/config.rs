@@ -279,7 +279,10 @@ pub async fn load_settings(state: State<'_, SettingsState>) -> Result<Settings, 
 #[tauri::command]
 pub async fn update_setting(key: String, value: serde_json::Value, state: State<'_, SettingsState>) -> Result<(), String> {
     let mut locked_settings = state.settings.write().await;
-    debug!("[CONFIG] Updating: {} = {}", key, value);
+
+    if !key.contains("password") {
+        debug!("[CONFIG] Updating: {} = {}", key, value);
+    }
 
     let mut settings_json: serde_json::Value = serde_json::to_value(&*locked_settings).unwrap();
     settings_json[key] = value;
