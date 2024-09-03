@@ -52,7 +52,7 @@ pub async fn format_music(app: &AppHandle, command: &str) -> String {
     let app_state = read_context(app).await;
 
     command
-        .replace("{music}", &app_state.song_title)
+        .replace("{title}", &app_state.song_title)
         .replace("{artist}", &app_state.song_author)
 }
 
@@ -71,7 +71,7 @@ pub async fn format_command(name: &str, mut command: String, app: &AppHandle) ->
         command = command.replace("{server}", &server)
     }
 
-    if command.contains("{music}") {
+    if command.contains("{title}") || command.contains("{artist}") {
         command = format_music(app, &command).await;
     }
 

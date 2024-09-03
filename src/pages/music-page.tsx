@@ -21,7 +21,7 @@ export default function MusicPage() {
 
             <div className={styles.settings}>
                 <Module title={t("Command Text")} column={true}>
-                    <TextInput setting="music_command_text" placeholder="🎵 : {music} - {artist}" />
+                    <TextInput setting="music_command_text" placeholder="🎵 : {title} - {artist}" />
                 </Module>
 
                 <Module title={t("Announce")}>
@@ -32,7 +32,7 @@ export default function MusicPage() {
                     <Module title={t("Announce Text")} column={true}>
                         <TextInput
                             setting="music_announce_text"
-                            placeholder="🎵 : {music} - {artist}"
+                            placeholder="🎵 : {title} - {artist}"
                         />
                     </Module>
                 )}
