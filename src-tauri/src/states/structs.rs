@@ -1,4 +1,4 @@
-use crate::api::twitch::FlowEmote;
+use crate::api::twitch::Emote;
 
 use serde::{Deserialize, Serialize};
 
@@ -8,7 +8,7 @@ pub struct Streamer {
     pub id: String,
     pub color: String,
     pub avatar_url: String,
-    pub emotes: Vec<FlowEmote>,
+    pub emotes: Vec<Emote>,
 }
 
 impl Default for Streamer {
