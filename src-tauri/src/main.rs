@@ -17,7 +17,6 @@ mod event_loop;
 mod log_process;
 mod log_reader;
 mod mc_client;
-mod windows_media;
 use std::{env, error::Error, path::Path};
 
 use crate::modules::auto_queuing_scene::scene_manager::SceneState;

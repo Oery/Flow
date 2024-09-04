@@ -1,7 +1,7 @@
 use crate::{
+    api::windows::{get_current_song, is_media_paused},
     bots::{bot_manager::BotState, selfbot},
     states::config::SettingsState,
-    windows_media::{get_current_song, is_media_paused},
 };
 use log::{error, info};
 use std::error::Error;
