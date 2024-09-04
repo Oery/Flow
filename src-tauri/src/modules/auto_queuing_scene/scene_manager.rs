@@ -92,6 +92,10 @@ impl SceneManager {
         info!("[OBS] Showing screen");
         info!("[OBS] Show | Current scene : {:?}", self.current_scene);
 
+        if self.current_scene.is_empty() {
+            return Ok(()); // No scene to show
+        }
+
         match &self.client {
             Some(client) => client
                 .scenes()
