@@ -2,14 +2,16 @@ use crate::log_reader::LogReader;
 use crate::mc_client::{get_current_client, Client, CLIENT_NOT_FOUND};
 use crate::modules::auto_queuing_scene::scene_manager::SceneState;
 use crate::modules::music::Music;
-use crate::states::config::{read_settings, SettingsState};
+use crate::states::config::read_settings;
 use crate::states::context::{update_context, AppState};
 use log::{debug, error, info};
 use std::sync::Arc;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use tauri::{AppHandle, Manager};
 use tokio::sync::Mutex;
 use tokio::time;
+
+const MUSIC_COOLDOWN_IN_MS: u128 = 5_000;
 
 pub async fn connect_to_obs(app: &AppHandle) {
     info!("[OBS] Trying to connect to OBS...");
@@ -60,6 +62,7 @@ pub async fn get_loop(app: &AppHandle) {
     connect_to_obs(app).await;
 
     let mut last_client: &Client = CLIENT_NOT_FOUND;
+    let mut last_music_update = Instant::now();
 
     loop {
         let current_client = get_current_client().unwrap_or(CLIENT_NOT_FOUND);
@@ -69,36 +72,39 @@ pub async fn get_loop(app: &AppHandle) {
             last_client = current_client;
         }
 
-        let music_clone = music.clone();
-        let log_reader_clone = log_reader.clone();
+        if last_music_update.elapsed().as_millis() > MUSIC_COOLDOWN_IN_MS {
+            last_music_update = Instant::now();
 
-        let music_update_handle = tokio::spawn({
-            let app = app.clone();
+            tokio::spawn({
+                let music_clone = music.clone();
+                let music_app_handle = app.clone();
+
+                async move {
+                    if !read_settings(&music_app_handle).await.music_enable {
+                        return;
+                    }
+
+                    let mut music = music_clone.lock().await;
+                    if let Err(e) = music.update(&music_app_handle).await {
+                        error!("[DJ] Error while updating music : {}", e);
+                    }
+                }
+            });
+        }
+
+        let log_reader_handle = tokio::spawn({
+            let log_reader_clone = log_reader.clone();
+            let log_reader_app_handle = app.clone();
 
             async move {
-                let settings = {
-                    let state = app.state::<SettingsState>();
-                    let locked_settings = state.settings.read().await;
-                    locked_settings.clone()
-                };
-
-                if settings.music_enable {
-                    let mut music = music_clone.lock().await;
-                    let _ = music.update(&app).await;
+                let mut log_reader = log_reader_clone.lock().await;
+                if let Err(e) = log_reader.read(log_reader_app_handle, last_client.path).await {
+                    error!("[LOG] Error while reading logs : {}", e);
                 }
             }
         });
 
-        let log_reader_handle = tokio::spawn({
-            let app_handle = app.clone();
-
-            async move {
-                let mut log_reader = log_reader_clone.lock().await;
-                let _ = log_reader.read(app_handle, last_client.path).await;
-            }
-        });
-
-        let _ = tokio::join!(music_update_handle, log_reader_handle);
+        let _ = tokio::join!(log_reader_handle); // Avoid race conditions
         std::thread::sleep(std::time::Duration::from_millis(100))
     }
 }
