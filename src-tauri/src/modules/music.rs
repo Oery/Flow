@@ -1,9 +1,9 @@
 use crate::{
     api::windows::{get_current_song, is_media_paused},
     bots::{bot_manager::BotState, selfbot},
-    states::config::SettingsState,
+    states::{config::SettingsState, context::update_context},
 };
-use log::{error, info};
+use log::error;
 use std::error::Error;
 use tauri::AppHandle;
 use tauri::Manager;
@@ -41,22 +41,22 @@ impl Music {
 
         let command = settings.music_command_text.replace("{title}", &title).replace("{artist}", &artist);
 
-        let result = {
-            let bot_state = app.state::<BotState>().clone();
-            let bot_manager = bot_state.bot_manager.read().await;
+        let bot_state = app.state::<BotState>().clone();
+        let bot_manager = bot_state.bot_manager.read().await;
 
-            if settings.music_announcements_enable {
-                let announcement = settings.music_announce_text.replace("{title}", &title).replace("{artist}", &artist);
-                let _ = selfbot::bot::announce(app, announcement).await;
-            }
-
-            bot_manager.get_bot().update_command("music", &command).await
-        };
-
-        match result {
-            Ok(_) => info!("[DJ] Music command updated"),
-            Err(e) => error!("[DJ] Error while updating music command : {}", e),
+        if let Err(e) = bot_manager.get_bot().update_command("music", &command).await {
+            error!("[DJ] Error while updating music command : {}", e);
         }
+
+        if settings.music_announcements_enable {
+            let announcement = settings.music_announce_text.replace("{title}", &title).replace("{artist}", &artist);
+            if let Err(e) = selfbot::bot::announce(app, announcement).await {
+                error!("[DJ] Error while announcing music : {}", e);
+            }
+        }
+
+        update_context("song_title", serde_json::json!(title), app).await;
+        update_context("song_author", serde_json::json!(artist), app).await;
 
         self.current_title = title;
         Ok(())

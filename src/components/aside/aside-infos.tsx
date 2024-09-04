@@ -4,6 +4,7 @@ import BotStatus from "./bot-status";
 
 import ClientStatus from "./client-status";
 import ObsStatus from "./obs-status";
+import MusicStatus from "./music-status";
 
 export default function AsideInfo() {
     const appContext = useAppContext();
@@ -20,6 +21,7 @@ export default function AsideInfo() {
                 <ObsStatus />
                 <BotStatus />
                 <ClientStatus />
+                <MusicStatus />
             </div>
         </aside>
     );

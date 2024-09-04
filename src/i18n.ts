@@ -47,6 +47,8 @@ const resources = {
             "Connect to Nightbot": "Se connecter à Nightbot",
             Language: "Langue",
             "Your Packs": "Vos packs",
+            Artist: "Artiste",
+            Title: "Titre",
         },
     },
 };
