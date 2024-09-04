@@ -7,7 +7,6 @@ use log::{error, info};
 use std::error::Error;
 use tauri::AppHandle;
 use tauri::Manager;
-// use tokio::time::Instant;
 
 #[derive(Clone)]
 pub struct Music {
@@ -22,7 +21,6 @@ impl Music {
     }
 
     pub async fn update(&mut self, app: &AppHandle) -> Result<(), Box<dyn Error>> {
-        // let start = Instant::now();
         let music_info = get_current_song().await?;
         let title = music_info.title;
         let artist = music_info.artist;
@@ -59,9 +57,6 @@ impl Music {
             Ok(_) => info!("[DJ] Music command updated"),
             Err(e) => error!("[DJ] Error while updating music command : {}", e),
         }
-
-        // let duration = start.elapsed();
-        // info!("[DJ] Time elapsed for this iteration is: {:?}", duration);
 
         self.current_title = title;
         Ok(())
