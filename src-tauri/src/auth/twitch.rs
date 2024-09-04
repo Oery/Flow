@@ -7,6 +7,7 @@ use tauri::{AppHandle, Manager, State};
 use tauri_plugin_oauth::{start_with_config, OauthConfig};
 
 use crate::{
+    api::twitch,
     auth::vault,
     states::{context::AppState, structs::Streamer},
 };
@@ -61,6 +62,7 @@ pub async fn get_streamer_info(token: &String, id: &String, app: &AppHandle) -> 
         id: twitch_streamer.id,
         avatar_url: twitch_streamer.profile_image_url,
         color: Default::default(),
+        emotes: twitch::get_emotes(token, id).await?,
     };
 
     let app_state: State<AppState> = app.state();

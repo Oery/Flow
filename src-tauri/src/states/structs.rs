@@ -1,3 +1,5 @@
+use crate::api::twitch::FlowEmote;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -6,6 +8,7 @@ pub struct Streamer {
     pub id: String,
     pub color: String,
     pub avatar_url: String,
+    pub emotes: Vec<FlowEmote>,
 }
 
 impl Default for Streamer {
@@ -15,6 +18,7 @@ impl Default for Streamer {
             id: "".to_string(),
             color: "#6441a5".to_string(),
             avatar_url: "".to_string(),
+            emotes: Vec::new(),
         }
     }
 }

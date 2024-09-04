@@ -22,6 +22,7 @@ use std::{env, error::Error, path::Path};
 
 use crate::modules::auto_queuing_scene::scene_manager::SceneState;
 
+mod api;
 mod auth;
 mod bots;
 mod commands;
