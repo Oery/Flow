@@ -1,22 +1,9 @@
-use reqwest::Result;
-use serde::Serialize;
-use tauri::AppHandle;
-
+use crate::api::twitch;
 use crate::states::{config::read_settings, context::read_context};
 
-// enum Color {
-//     Blue,
-//     Green,
-//     Orange,
-//     Purple,
-//     Primary,
-// }
-
-#[derive(Serialize)]
-struct Announcement {
-    // color: Color,
-    message: String,
-}
+use log::error;
+use reqwest::Result;
+use tauri::AppHandle;
 
 pub async fn announce(app: &AppHandle, message: String) -> Result<()> {
     let context = read_context(app).await;
@@ -27,19 +14,9 @@ pub async fn announce(app: &AppHandle, message: String) -> Result<()> {
         _ => [context.twitch_access_token.clone(), context.streamer.id.clone()],
     };
 
-    let url = format!(
-        "https://api.twitch.tv/helix/chat/announcements?broadcaster_id={}&moderator_id={}",
-        channel_id, moderator_id
-    );
-
-    reqwest::Client::new()
-        .post(url)
-        .header("Authorization", format!("Bearer {}", token))
-        .header("Client-Id", "cig4pc07b7bxo207x8158v58r1i5pf")
-        .json(&Announcement { message })
-        .send()
-        .await?
-        .error_for_status()?;
+    if let Err(e) = twitch::send_announcement(&token, &channel_id, &moderator_id, message).await {
+        error!("[TWITCH] Error while sending announcement : {}", e);
+    }
 
     Ok(())
 }

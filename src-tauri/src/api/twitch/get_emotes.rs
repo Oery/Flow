@@ -1,6 +1,8 @@
 use http::header::AUTHORIZATION;
 use serde::{Deserialize, Serialize};
 
+// https://dev.twitch.tv/docs/api/reference/#get-channel-emotes
+
 #[derive(Debug, Deserialize)]
 pub struct Emote {
     id: String,

@@ -1,8 +1,6 @@
 use std::{env, error::Error};
 
-use http::header::{AUTHORIZATION, CONTENT_TYPE};
 use log::{debug, error, info};
-use serde::Deserialize;
 use tauri::{AppHandle, Manager, State};
 use tauri_plugin_oauth::{start_with_config, OauthConfig};
 
@@ -19,50 +17,16 @@ use super::{
     vault::{delete_token, get_token, store_token},
 };
 
-#[derive(Deserialize, Clone)]
-struct GetStreamerInfoResponse {
-    data: Vec<User>,
-}
-
-#[allow(dead_code)]
-#[derive(Deserialize, Debug, Clone)]
-struct User {
-    id: String,
-    login: String,
-    display_name: String,
-    #[serde(rename = "type")]
-    type_field: String,
-    broadcaster_type: String,
-    description: String,
-    profile_image_url: String,
-    offline_image_url: String,
-    view_count: i32,
-    created_at: String,
-}
-
 pub async fn get_streamer_info(token: &String, id: &String, app: &AppHandle) -> Result<(), Box<dyn Error>> {
-    let client = reqwest::Client::new();
-    let params = [("id", id)];
-
-    let url = reqwest::Url::parse_with_params("https://api.twitch.tv/helix/users", &params)?;
-
-    let response = client
-        .get(url)
-        .header(AUTHORIZATION, format!("Bearer {token}"))
-        .header("Client-Id", "cig4pc07b7bxo207x8158v58r1i5pf")
-        .send()
-        .await?
-        .error_for_status()?;
-
-    let json: GetStreamerInfoResponse = response.json().await?;
-    let twitch_streamer: User = json.data[0].clone();
+    let user = twitch::get_user(token, id).await?;
+    let emotes = twitch::get_emotes(token, id).await?;
 
     let streamer = Streamer {
-        display_name: twitch_streamer.display_name,
-        id: twitch_streamer.id,
-        avatar_url: twitch_streamer.profile_image_url,
+        display_name: user.display_name,
+        id: user.id,
+        avatar_url: user.profile_image_url,
         color: Default::default(),
-        emotes: twitch::get_emotes(token, id).await?,
+        emotes,
     };
 
     let app_state: State<AppState> = app.state();
@@ -156,7 +120,7 @@ pub async fn log_out(app: AppHandle, app_state: State<'_, AppState>) -> Result<(
         }
     };
 
-    if let Err(err) = revoke_twitch_token(token).await {
+    if let Err(err) = twitch::revoke_token(token).await {
         error!("[TWITCH] Error while revoking token : {}", err);
         return Err(err.to_string());
     }
@@ -175,21 +139,5 @@ pub async fn log_out(app: AppHandle, app_state: State<'_, AppState>) -> Result<(
         app_state
     };
 
-    Ok(())
-}
-
-pub async fn revoke_twitch_token(token: String) -> Result<(), Box<dyn Error>> {
-    let client = reqwest::Client::new();
-    let params = [("client_id", "cig4pc07b7bxo207x8158v58r1i5pf"), ("token", &token)];
-
-    client
-        .post("https://id.twitch.tv/oauth2/revoke")
-        .header(CONTENT_TYPE, "application/x-www-form-urlencoded")
-        .form(&params)
-        .send()
-        .await?
-        .error_for_status()?;
-
-    delete_token(SERVICES.twitch.vault)?;
     Ok(())
 }
