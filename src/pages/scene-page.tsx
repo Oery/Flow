@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import styles from "../styles/Settings.module.css";
 import { useEffect, useState } from "react";
 import SelectInput from "../components/ui/select-input";
-import { Scene, Scenes } from "../types/Scene";
+import type { Scene, Scenes } from "../types/Scene";
 
 export default function ScenePage() {
     const { settings } = useSettings();

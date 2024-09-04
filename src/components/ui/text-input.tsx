@@ -3,7 +3,7 @@ import styles from "../../styles/TextInput.module.css";
 import { useSettings } from "../SettingsContext";
 import { useState } from "react";
 import { useAppContext } from "../AppContext";
-import { Emote } from "../../types/Emote";
+import type { Emote } from "../../types/Emote";
 
 type Timeout = ReturnType<typeof setTimeout>;
 

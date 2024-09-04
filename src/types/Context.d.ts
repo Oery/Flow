@@ -1,5 +1,5 @@
-import { Aliases } from "./Alias";
-import { Streamer } from "./Streamer";
+import type { Aliases } from "./Alias";
+import type { Streamer } from "./Streamer";
 
 interface AliasStore {
     packs: Aliases;
@@ -13,4 +13,4 @@ interface App {
     aliases: AliasStore;
 }
 
-export { App };
+export type { App };

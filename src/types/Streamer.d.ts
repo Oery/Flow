@@ -1,4 +1,4 @@
-import { Emote } from "./Emote";
+import type { Emote } from "./Emote";
 
 interface Streamer {
     color: string;
@@ -8,4 +8,4 @@ interface Streamer {
     emotes: Emote[];
 }
 
-export { Streamer };
+export type { Streamer };

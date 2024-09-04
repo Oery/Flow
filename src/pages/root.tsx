@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavElement from "../components/ui/nav-element";
-import { Event, listen } from "@tauri-apps/api/event";
+import { type Event, listen } from "@tauri-apps/api/event";
 
 import styles from "../styles/Root.module.css";
 import Titlebar from "../components/title-bar";

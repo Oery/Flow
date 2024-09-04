@@ -2,7 +2,7 @@ import { createContext, useMemo, useState, useContext, useEffect } from "react";
 import { removeTauriAlias, updateTauriAlias, updateTauriSetting } from "../utils/updateSetting";
 import { invoke } from "@tauri-apps/api";
 import { useTranslation } from "react-i18next";
-import { AliasGroup, Aliases } from "../types/Alias";
+import type { AliasGroup, Aliases } from "../types/Alias";
 
 type Setting = boolean | string;
 

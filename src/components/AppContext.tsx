@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { Event, listen } from "@tauri-apps/api/event";
-import { App } from "../types/Context";
+import { type Event, listen } from "@tauri-apps/api/event";
+import type { App } from "../types/Context";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export const AppContext = createContext<App | undefined>(undefined);
@@ -13,7 +13,7 @@ export function useAppContext(): App {
 
 export const AppProvider = ({ children }: React.PropsWithChildren) => {
     const [context, setContext] = useState<App>({
-        streamer: { color: "", id: "", display_name: "", avatar_url: "" },
+        streamer: { color: "", id: "", display_name: "", avatar_url: "", emotes: [] },
         resource_packs_raw: [],
         aliases: {
             packs: {},

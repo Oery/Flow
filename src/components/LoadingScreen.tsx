@@ -5,7 +5,7 @@ import styles from "../styles/LoadingScreen.module.css";
 import LoginModal from "./LoginModal";
 import { useEffect, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api";
-import { Event, listen } from "@tauri-apps/api/event";
+import { type Event, listen } from "@tauri-apps/api/event";
 
 interface Props {
     isLoading: boolean;

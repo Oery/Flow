@@ -4,4 +4,4 @@ interface Emote {
     image_url: string;
 }
 
-export { Emote };
+export type { Emote };
