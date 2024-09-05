@@ -1,10 +1,11 @@
 use async_trait::async_trait;
 use std::error::Error;
+use tauri::AppHandle;
 
 #[async_trait]
 pub trait TwitchBot: Send + Sync {
     fn get_name(&self) -> &str;
-    async fn initialize(&self) -> Result<(), Box<dyn Error>>;
+    async fn initialize(&mut self, app: &AppHandle) -> Result<(), Box<dyn Error>>;
     async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>>;
 }
 
@@ -19,7 +20,8 @@ impl TwitchBot for DefaultBot {
     fn get_name(&self) -> &str {
         "none"
     }
-    async fn initialize(&self) -> Result<(), Box<dyn Error>> {
+
+    async fn initialize(&mut self, app: &AppHandle) -> Result<(), Box<dyn Error>> {
         Ok(())
     }
 

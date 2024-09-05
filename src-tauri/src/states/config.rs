@@ -56,6 +56,7 @@ pub struct Settings {
     pub custom_logs_path: String,
     pub twitch_bot: String,
     pub bot_prefix: String,
+    pub custom_bot_id: String,
     pub disable_hardware_acceleration: bool,
     pub start_with_windows: bool,
     pub language: String,
@@ -105,8 +106,11 @@ impl Default for Settings {
             streaming_mc_only: true,
             mc_client: "Vanilla / Forge".to_string(),
             custom_logs_path: "default_path".to_string(),
+
             twitch_bot: "Nightbot".to_string(),
             bot_prefix: "!".to_string(),
+            custom_bot_id: "".to_string(),
+
             disable_hardware_acceleration: false,
             start_with_windows: false,
             language: "auto".to_string(),

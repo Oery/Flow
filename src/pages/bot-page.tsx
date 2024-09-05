@@ -57,7 +57,9 @@ export default function BotPage() {
 
                 {settings.twitch_bot === "custom" && (
                     <Module title={t("Custom Bot")}>
-                        <button type="button">Connect to Custom Bot</button>
+                        <button type="button" onClick={() => invoke("start_custom_bot_auth")}>
+                            Connect to Custom Bot
+                        </button>
                     </Module>
                 )}
 

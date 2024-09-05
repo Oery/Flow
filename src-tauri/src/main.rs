@@ -1,35 +1,31 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use crate::states::config::SettingsState;
-use bots::bot_manager;
-use bots::bot_manager::BotState;
-use log::info;
+use bots::bot_manager::{self, BotState};
+use modules::auto_queuing_scene::scene_manager::SceneState;
 use states::{
-    config::{get_flow_path, get_logs_path},
+    config::{get_flow_path, get_logs_path, SettingsState},
     context::AppState,
 };
+
+use fern::colors::{Color, ColoredLevelConfig};
+use log::info;
+use std::{env, error::Error, path::Path};
 use tauri::{CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, WindowEvent};
 use tauri_plugin_autostart::MacosLauncher;
 use window_shadows::set_shadow;
-
-mod event_loop;
-mod log_process;
-mod log_reader;
-mod mc_client;
-use std::{env, error::Error, path::Path};
-
-use crate::modules::auto_queuing_scene::scene_manager::SceneState;
 
 mod api;
 mod auth;
 mod bots;
 mod commands;
+mod event_loop;
+mod log_process;
+mod log_reader;
+mod mc_client;
 mod modules;
 mod states;
 mod tailer;
-
-use fern::colors::{Color, ColoredLevelConfig};
 
 fn setup_flow_path() -> Result<(), Box<dyn Error>> {
     let flow_path = get_flow_path()?;
@@ -109,9 +105,11 @@ fn main() {
         commands::alias::update_alias,
         commands::alias::delete_alias,
         event_loop::start_event_loop,
-        auth::twitch::start_login_flow,
-        auth::nightbot::start_nightbot_server,
+        auth::load_app,
+        auth::nightbot_auth::start_nightbot_server,
         auth::twitch::log_out,
+        auth::custom_bot_auth::start_custom_bot_auth,
+        auth::twitch::close_custom_bot_auth,
         states::context::load_context,
         bot_manager::get_current_bot,
         bot_manager::set_bot_token,

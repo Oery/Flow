@@ -1,12 +1,13 @@
+use crate::api;
+use crate::auth::vault::get_token;
+use crate::bots::twitch_bot::TwitchBot;
+
 use async_trait::async_trait;
 use log::info;
 use reqwest::Client;
 use std::{collections::HashMap, error::Error};
+use tauri::AppHandle;
 use tokio::sync::Mutex;
-
-use crate::auth::oauth_services::Service;
-use crate::auth::vault::get_token;
-use crate::bots::twitch_bot::TwitchBot;
 
 pub struct Wizebot {
     api_key: String,
@@ -17,7 +18,7 @@ pub struct Wizebot {
 impl Wizebot {
     pub fn new() -> Result<Self, Box<dyn Error>> {
         Ok(Self {
-            api_key: get_token(&Service::WizeBot)?,
+            api_key: get_token("WizeBot")?,
             client: Client::new(),
             cache: Mutex::new(HashMap::new()),
         })
@@ -30,7 +31,7 @@ impl TwitchBot for Wizebot {
         "wizebot"
     }
 
-    async fn initialize(&self) -> Result<(), Box<dyn Error>> {
+    async fn initialize(&mut self, _app: &AppHandle) -> Result<(), Box<dyn Error>> {
         let url = format!("https://wapi.wizebot.tv/api/custom-data/{}/get", self.api_key);
         let res = self.client.get(url).send().await?;
 
@@ -52,10 +53,9 @@ impl TwitchBot for Wizebot {
             }
         }
 
-        let url = format!("https://wapi.wizebot.tv/api/custom-data/{}/set/{}/{}", self.api_key, command, value);
+        api::wizebot::set_custom_data(&self.api_key, command, value).await?;
         info!("[WIZEBOT] Command updated : {}, {}", command, value);
 
-        self.client.post(url).send().await?.error_for_status()?;
         {
             let mut cache = self.cache.lock().await;
             cache.insert(command.to_string(), value.to_string());
@@ -63,9 +63,6 @@ impl TwitchBot for Wizebot {
 
         Ok(())
     }
-    // fn create_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
-    //     Err("Wizebot cannot create command".into())
-    // }
 
     // fn get_command(&self, command: &str) -> Result<(), Box<dyn Error>> {
     //     let url = format!(
@@ -77,16 +74,6 @@ impl TwitchBot for Wizebot {
 
     //     // Return command
 
-    //     Ok(())
-    // }
-
-    // // fn get_commands(&self) -> Result<(), Box<dyn Error>> {}
-    // fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
-    //     let url = format!(
-    //         "https://wapi.wizebot.tv/api/custom-data/{}/set/{}/{}",
-    //         self.api_key, command, value
-    //     );
-    //     let res = self.client.post(url).send()?.error_for_status()?;
     //     Ok(())
     // }
 }

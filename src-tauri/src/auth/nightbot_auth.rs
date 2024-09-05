@@ -1,22 +1,24 @@
+use crate::api;
+use crate::auth::utils::get_code_from_url;
+use crate::auth::vault;
+use crate::bots::bot_manager::BotState;
+
 use log::error;
 use std::error::Error;
-
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 use tauri_plugin_oauth::{start_with_config, OauthConfig};
 
-use super::{
-    oauth::{trade_code_for_token, validate_token},
-    oauth_services::Service,
-    utils::parse_url,
-    vault::store_token,
-};
-
 async fn handle_nightbot_login_flow(app: AppHandle, url: String) -> Result<(), Box<dyn Error>> {
-    let code = parse_url(url)?;
-    let token = trade_code_for_token(code, &Service::Nightbot).await?;
+    let authorization_code = get_code_from_url(url)?;
+    let token = api::flow::get_nightbot_token(authorization_code).await?;
 
-    validate_token(&token, &app, &Service::Nightbot).await?;
-    store_token(&Service::Nightbot, &token)?;
+    // This is used to validate the token
+    api::nightbot::get_channel(&token).await?;
+    vault::store_token("Nightbot", &token)?;
+
+    let state = app.state::<BotState>().clone();
+    let mut bot_state = state.bot_manager.write().await;
+    bot_state.set_bot("nightbot", &app).await?;
 
     Ok(())
 }

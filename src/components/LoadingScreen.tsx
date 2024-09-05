@@ -27,7 +27,7 @@ export default function LoadingScreen({ isLoading }: Readonly<Props>) {
 
     useEffect(() => {
         setTimeout(() => {
-            invoke("start_login_flow");
+            invoke("load_app");
         }, 100);
 
         return () => {

@@ -1,6 +1,5 @@
-use http::header::AUTHORIZATION;
+use reqwest::Result;
 use serde::Deserialize;
-use std::error::Error;
 
 // https://dev.twitch.tv/docs/api/reference/#get-users
 
@@ -16,12 +15,12 @@ struct GetUserResponse {
     data: Vec<User>,
 }
 
-pub async fn get_user(token: &String, id: &String) -> Result<User, Box<dyn Error>> {
-    let url = reqwest::Url::parse_with_params("https://api.twitch.tv/helix/users", &[("id", id)])?;
+pub async fn get_user(token: &str, id: &str) -> Result<User> {
+    let url = reqwest::Url::parse_with_params("https://api.twitch.tv/helix/users", &[("id", id)]).unwrap();
 
     let res = reqwest::Client::new()
         .get(url)
-        .header(AUTHORIZATION, format!("Bearer {}", token))
+        .bearer_auth(token)
         .header("Client-Id", "cig4pc07b7bxo207x8158v58r1i5pf")
         .send()
         .await?

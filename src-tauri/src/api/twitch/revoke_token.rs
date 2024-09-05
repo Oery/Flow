@@ -1,7 +1,6 @@
-use std::error::Error;
-
-use crate::auth::oauth_services::SERVICES;
 use crate::auth::vault::delete_token;
+
+use std::error::Error;
 
 // https://dev.twitch.tv/docs/authentication/revoke-tokens/
 
@@ -15,6 +14,6 @@ pub async fn revoke_token(token: String) -> Result<(), Box<dyn Error>> {
         .await?
         .error_for_status()?;
 
-    delete_token(SERVICES.twitch.vault)?;
+    delete_token("Twitch")?;
     Ok(())
 }

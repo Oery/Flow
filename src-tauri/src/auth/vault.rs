@@ -1,18 +1,14 @@
 use log::{error, info};
-use std::error::Error;
-
 use windows::{
     core::HSTRING,
     Security::Credentials::{PasswordCredential, PasswordVault},
 };
 
-use super::oauth_services::Service;
-
-pub fn store_token(service: &Service, token: &str) -> Result<(), Box<dyn Error>> {
-    let resource = service.get_vault();
+pub fn store_token(resource: &str, token: &str) -> windows::core::Result<()> {
+    let resource = resource.to_string() + "OAuthToken";
 
     let vault = PasswordVault::new()?;
-    let resource_hstring = HSTRING::from(resource);
+    let resource_hstring = HSTRING::from(&resource);
     let flow_hstring = HSTRING::from("Flow");
     let token_hstring = HSTRING::from(token);
 
@@ -26,19 +22,19 @@ pub fn store_token(service: &Service, token: &str) -> Result<(), Box<dyn Error>>
         Err(error) => {
             error!(
                 "[VAULT | {}] Token failed to save. Vault may miss the service, error: {}",
-                service, error
+                resource, error
             );
             let new_credential = PasswordCredential::CreatePasswordCredential(&resource_hstring, &flow_hstring, &token_hstring)?;
             vault.Add(&new_credential)?;
-            info!("[VAULT | {}] Token stored successfully in vault", service);
+            info!("[VAULT | {}] Token stored successfully in vault", resource);
         }
     }
 
     Ok(())
 }
 
-pub fn get_token(service: &Service) -> Result<String, Box<dyn Error>> {
-    let resource = service.get_vault();
+pub fn get_token(resource: &str) -> windows::core::Result<String> {
+    let resource = resource.to_string() + "OAuthToken";
 
     let vault = PasswordVault::new()?;
     let credential = vault.Retrieve(&HSTRING::from(resource), &HSTRING::from("Flow"))?;
@@ -46,7 +42,9 @@ pub fn get_token(service: &Service) -> Result<String, Box<dyn Error>> {
     Ok(credential.Password()?.to_string_lossy())
 }
 
-pub fn delete_token(resource: &str) -> Result<(), Box<dyn Error>> {
+pub fn delete_token(resource: &str) -> windows::core::Result<()> {
+    let resource = resource.to_string() + "OAuthToken";
+
     let vault = PasswordVault::new()?;
     let credential_result = vault.Retrieve(&HSTRING::from(resource), &HSTRING::from("Flow"));
 

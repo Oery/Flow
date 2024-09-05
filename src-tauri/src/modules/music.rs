@@ -1,8 +1,10 @@
+use crate::bots;
 use crate::{
     api::windows::{get_current_song, is_media_paused},
-    bots::{bot_manager::BotState, selfbot},
+    bots::bot_manager::BotState,
     states::{config::SettingsState, context::update_context},
 };
+
 use log::error;
 use std::error::Error;
 use tauri::AppHandle;
@@ -50,7 +52,7 @@ impl Music {
 
         if settings.music_announcements_enable {
             let announcement = settings.music_announce_text.replace("{title}", &title).replace("{artist}", &artist);
-            if let Err(e) = selfbot::bot::announce(app, announcement).await {
+            if let Err(e) = bots::announce(app, announcement).await {
                 error!("[DJ] Error while announcing music : {}", e);
             }
         }

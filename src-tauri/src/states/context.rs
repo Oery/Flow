@@ -1,17 +1,18 @@
+use crate::states::structs::{IngameStatus, Streamer};
+
+use log::error;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tauri::{AppHandle, Manager};
 use tokio::sync::RwLock;
 
-use super::structs::{IngameStatus, Streamer};
-
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Context {
     pub streamer: Streamer,
-    pub custom_bot: Streamer,
     pub twitch_access_token: String,
     pub nightbot_access_token: String,
     pub custom_bot_token: String,
+    pub custom_bot_id: String,
     pub client: String,
     pub obs_status: String,
     pub bot_status: String,
@@ -29,10 +30,10 @@ impl Default for Context {
     fn default() -> Self {
         Self {
             streamer: Streamer::default(),
-            custom_bot: Streamer::default(),
             twitch_access_token: "".to_string(),
             nightbot_access_token: "".to_string(),
             custom_bot_token: "".to_string(),
+            custom_bot_id: "".to_string(),
             client: "?".to_string(),
             obs_status: "Offline".to_string(),
             bot_status: "Offline".to_string(),
@@ -83,7 +84,18 @@ pub async fn update_context(key: &str, value: serde_json::Value, app: &AppHandle
         "server_raw" => app_state.server_raw = value.as_str().unwrap_or("?").to_string(),
         "client" => app_state.client = value.as_str().unwrap_or("?").to_string(),
         "bot_status" => app_state.bot_status = value.as_str().unwrap_or("?").to_string(),
-        _ => {}
+        "custom_bot_id" => app_state.custom_bot_id = value.as_str().unwrap_or("?").to_string(),
+        "obs_status" => app_state.obs_status = value.as_str().unwrap_or("?").to_string(),
+
+        "song_title" => app_state.song_title = value.as_str().unwrap_or("?").to_string(),
+        "song_author" => app_state.song_author = value.as_str().unwrap_or("?").to_string(),
+
+        "ingame_status" => app_state.ingame_status = serde_json::from_value(value.clone()).unwrap_or(IngameStatus::Unknown),
+        "streamer" => app_state.streamer = serde_json::from_value(value.clone()).unwrap_or(Streamer::default()),
+        "custom_bot_id" => app_state.custom_bot_id = value.as_str().unwrap_or("").to_string(),
+
+        "twitch_access_token" => app_state.twitch_access_token = value.as_str().unwrap_or("").to_string(),
+        _ => error!("[CONTEXT] Unknown key : {}", key),
     }
 
     let payload = serde_json::json!({ key: value });

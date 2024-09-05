@@ -1,4 +1,4 @@
-use http::header::AUTHORIZATION;
+use reqwest::Result;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 
@@ -24,12 +24,12 @@ pub struct Emote {
     pub image_url: String,
 }
 
-pub async fn get_emotes(token: &str, streamer_id: &str) -> Result<Vec<Emote>, Box<dyn std::error::Error>> {
-    let url = Url::parse_with_params("https://api.twitch.tv/helix/chat/emotes", &[("broadcaster_id", streamer_id)])?;
+pub async fn get_emotes(token: &str, streamer_id: &str) -> Result<Vec<Emote>> {
+    let url = Url::parse_with_params("https://api.twitch.tv/helix/chat/emotes", &[("broadcaster_id", streamer_id)]).unwrap();
 
     let res = reqwest::Client::new()
         .get(url)
-        .header(AUTHORIZATION, format!("Bearer {}", token))
+        .bearer_auth(token)
         .header("Client-Id", "cig4pc07b7bxo207x8158v58r1i5pf")
         .send()
         .await?

@@ -10,6 +10,14 @@ export default function DebugMenu() {
             <button onClick={() => invoke("disconnect_from_obs")} type="button">
                 Disconnect from OBS
             </button>
+
+            <button onClick={() => invoke("start_custom_bot_auth")} type="button">
+                Open FlowBot Window
+            </button>
+
+            <button onClick={() => invoke("close_custom_bot_auth")} type="button">
+                Close FlowBot Window
+            </button>
         </>
     );
 }

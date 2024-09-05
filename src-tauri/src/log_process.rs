@@ -97,7 +97,7 @@ pub async fn update_packs(app: &AppHandle, packs_vec: Vec<String>, settings: &Se
 
     if settings.pack_announcements_enable {
         let announcement = settings.pack_announcements_text.replace("{pack}", &packs);
-        let _ = bots::selfbot::bot::announce(app, announcement).await;
+        let _ = bots::announce(app, announcement).await;
     }
 }
 
@@ -112,7 +112,7 @@ pub async fn update_server(app: &AppHandle, server_address: &str, settings: &Set
 
     if settings.server_announcements_enable {
         let announcement = settings.server_announcements_text.replace("{server}", &server_address);
-        let _ = bots::selfbot::bot::announce(app, announcement).await;
+        let _ = bots::announce(app, announcement).await;
     }
 }
 
