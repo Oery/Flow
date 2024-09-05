@@ -9,9 +9,6 @@ use tokio::sync::RwLock;
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Context {
     pub streamer: Streamer,
-    pub twitch_access_token: String,
-    pub nightbot_access_token: String,
-    pub custom_bot_token: String,
     pub custom_bot_id: String,
     pub client: String,
     pub obs_status: String,
@@ -24,6 +21,13 @@ pub struct Context {
     pub server_raw: String,
     pub ingame_status: IngameStatus,
     pub event_loop_running: bool,
+
+    #[serde(skip_serializing)]
+    pub twitch_access_token: String,
+    #[serde(skip_serializing)]
+    pub nightbot_access_token: String,
+    #[serde(skip_serializing)]
+    pub custom_bot_token: String,
 }
 
 impl Default for Context {
