@@ -18,7 +18,10 @@ const LoginModal = forwardRef(function LoginModal({ isOpened }: Props, ref) {
     params.set("client_id", "cig4pc07b7bxo207x8158v58r1i5pf");
     params.set("response_type", "code");
     params.set("redirect_uri", "http://localhost:8457");
-    params.set("scope", "channel:manage:predictions moderator:manage:announcements");
+    params.set(
+        "scope",
+        "channel:manage:predictions moderator:manage:announcements user:read:chat user:write:chat"
+    );
     const oauthUrlString = `${oauthUrl.origin + oauthUrl.pathname}?${params}`;
 
     const handleClick = () => {

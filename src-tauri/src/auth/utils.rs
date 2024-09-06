@@ -17,7 +17,10 @@ pub fn open_custom_auth_window(app: &AppHandle) {
             ("client_id", "cig4pc07b7bxo207x8158v58r1i5pf"),
             ("response_type", "code"),
             ("redirect_uri", "http://localhost:8457"),
-            ("scope", "channel:manage:predictions moderator:manage:announcements"),
+            (
+                "scope",
+                "channel:manage:predictions moderator:manage:announcements user:read:chat user:write:chat",
+            ),
         ],
     )
     .unwrap();
