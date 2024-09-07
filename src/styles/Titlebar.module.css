@@ -43,8 +43,13 @@
 }
 
 .buttons > div:last-child:hover {
+    transition: none;
     background-color: #e81123;
     border-top-right-radius: 10px;
+}
+
+.buttons > div:last-child:hover > svg > polygon {
+    fill: white;
 }
 
 .titlebar svg {
