@@ -1,4 +1,5 @@
 use crate::bots;
+use crate::states::config::read_settings;
 use crate::{
     api::windows::{get_current_song, is_media_paused},
     bots::bot_manager::BotState,
@@ -23,22 +24,22 @@ impl Music {
     }
 
     pub async fn update(&mut self, app: &AppHandle) -> Result<(), Box<dyn Error>> {
+        let settings = read_settings(app).await;
         let music_info = get_current_song().await?;
-        let title = music_info.title;
-        let artist = music_info.artist;
-
-        let settings = {
-            let state = app.state::<SettingsState>().clone();
-            let locked_settings = state.settings.read().await;
-            locked_settings.clone()
-        };
+        let mut title = music_info.title;
+        let mut artist = music_info.artist;
 
         if title == self.current_title || is_media_paused().await? || (title.is_empty() && artist.is_empty()) {
             return Ok(());
         }
 
-        if settings.music_ignore_twitch && title.ends_with(" - Twitch") {
-            return Ok(());
+        if title.ends_with(" - Twitch") {
+            if settings.music_ignore_twitch {
+                return Ok(());
+            }
+
+            title = title.replace(" - Twitch", "");
+            artist = "Twitch".to_string();
         }
 
         let command = settings.music_command_text.replace("{title}", &title).replace("{artist}", &artist);
