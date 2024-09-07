@@ -65,7 +65,11 @@ impl Default for AppState {
 
 #[tauri::command]
 pub async fn load_context(app: AppHandle) -> Result<Context, String> {
-    Ok(read_context(&app).await)
+    let mut ui_context = read_context(&app).await;
+    ui_context.twitch_access_token = String::new();
+    ui_context.custom_bot_token = String::new();
+
+    Ok(ui_context)
 }
 
 pub async fn read_context(app: &AppHandle) -> Context {
