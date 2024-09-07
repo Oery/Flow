@@ -34,7 +34,7 @@ impl TwitchBot for SelfBot {
         Ok(())
     }
 
-    async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn std::error::Error>> {
+    async fn update_command(&mut self, command: &str, value: &str) -> Result<(), Box<dyn std::error::Error>> {
         unimplemented!()
     }
 }

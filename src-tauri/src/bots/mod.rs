@@ -21,8 +21,9 @@ pub use wizebot::*;
 
 pub async fn update_command(app: &AppHandle, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
     let state = app.state::<BotState>().clone();
-    let bot_manager = state.bot_manager.read().await;
-    bot_manager.get_bot().update_command(command, value).await
+    let mut bot_manager = state.bot_manager.write().await;
+    bot_manager.get_bot_mut().update_command(command, value).await?;
+    Ok(())
 }
 
 pub async fn announce(app: &AppHandle, message: String) -> reqwest::Result<()> {

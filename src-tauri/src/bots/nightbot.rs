@@ -49,7 +49,7 @@ impl TwitchBot for Nightbot {
         Ok(())
     }
 
-    async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
+    async fn update_command(&mut self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
         let command = self.prefix.clone() + command;
         let commands = api::nightbot::get_commands(&self.token).await?;
 

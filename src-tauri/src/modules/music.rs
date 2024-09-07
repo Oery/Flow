@@ -2,14 +2,12 @@ use crate::bots;
 use crate::states::config::read_settings;
 use crate::{
     api::windows::{get_current_song, is_media_paused},
-    bots::bot_manager::BotState,
-    states::{config::SettingsState, context::update_context},
+    states::context::update_context,
 };
 
 use log::error;
 use std::error::Error;
 use tauri::AppHandle;
-use tauri::Manager;
 
 #[derive(Clone)]
 pub struct Music {
@@ -44,10 +42,7 @@ impl Music {
 
         let command = settings.music_command_text.replace("{title}", &title).replace("{artist}", &artist);
 
-        let bot_state = app.state::<BotState>().clone();
-        let bot_manager = bot_state.bot_manager.read().await;
-
-        if let Err(e) = bot_manager.get_bot().update_command("music", &command).await {
+        if let Err(e) = bots::update_command(app, "music", &command).await {
             error!("[DJ] Error while updating music command : {}", e);
         }
 

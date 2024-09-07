@@ -45,7 +45,7 @@ impl TwitchBot for Wizebot {
         Ok(())
     }
 
-    async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
+    async fn update_command(&mut self, command: &str, value: &str) -> Result<(), Box<dyn Error>> {
         {
             let cache = self.cache.lock().await;
             if cache.get(command) == Some(&value.to_string()) {

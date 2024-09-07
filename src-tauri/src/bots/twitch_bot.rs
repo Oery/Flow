@@ -6,7 +6,7 @@ use tauri::AppHandle;
 pub trait TwitchBot: Send + Sync {
     fn get_name(&self) -> &str;
     async fn initialize(&mut self, app: &AppHandle) -> Result<(), Box<dyn Error>>;
-    async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn Error>>;
+    async fn update_command(&mut self, command: &str, value: &str) -> Result<(), Box<dyn Error>>;
 }
 
 // fn get_commands(&self) -> Option<String>;
@@ -25,7 +25,7 @@ impl TwitchBot for DefaultBot {
         Ok(())
     }
 
-    async fn update_command(&self, _command: &str, _value: &str) -> Result<(), Box<dyn Error>> {
+    async fn update_command(&mut self, _command: &str, _value: &str) -> Result<(), Box<dyn Error>> {
         Ok(())
     }
 }

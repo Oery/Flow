@@ -11,13 +11,13 @@ use tauri::{AppHandle, Manager};
 use tokio::sync::RwLock;
 
 pub struct BotManager {
-    current_bot: Box<dyn TwitchBot>,
+    pub bot: Box<dyn TwitchBot>,
 }
 
 impl BotManager {
     pub fn new() -> Self {
         Self {
-            current_bot: Box::new(DefaultBot {}),
+            bot: Box::new(DefaultBot {}),
         }
     }
 
@@ -32,7 +32,11 @@ impl BotManager {
     }
 
     pub fn get_bot(&self) -> &dyn TwitchBot {
-        self.current_bot.as_ref()
+        self.bot.as_ref()
+    }
+
+    pub fn get_bot_mut(&mut self) -> &mut dyn TwitchBot {
+        self.bot.as_mut()
     }
 
     pub async fn set_bot(&mut self, name: &str, app: &AppHandle) -> Result<(), String> {
@@ -41,7 +45,7 @@ impl BotManager {
         let mut bot = self.new_bot(name, &settings).map_err(|e| e.to_string())?;
         bot.initialize(app).await.map_err(|e| e.to_string())?;
         update_context("bot_status", serde_json::json!("Online"), app).await;
-        self.current_bot = bot;
+        self.bot = bot;
         Ok(())
     }
 }

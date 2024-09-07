@@ -5,6 +5,7 @@ use crate::states::context::{read_context, update_context};
 
 use async_trait::async_trait;
 use log::error;
+use std::collections::HashMap;
 use std::error::Error;
 use tauri::AppHandle;
 
@@ -12,6 +13,7 @@ pub struct CustomBot {
     token: String,
     bot_id: String,
     channel_id: String,
+    commands: HashMap<String, String>,
 }
 
 impl CustomBot {
@@ -20,6 +22,7 @@ impl CustomBot {
             token: vault::get_token("CustomBot")?,
             bot_id: String::new(),
             channel_id: String::new(),
+            commands: HashMap::new(),
         })
     }
 }
@@ -51,8 +54,9 @@ impl TwitchBot for CustomBot {
         Ok(())
     }
 
-    async fn update_command(&self, command: &str, value: &str) -> Result<(), Box<dyn std::error::Error>> {
+    async fn update_command(&mut self, command: &str, value: &str) -> Result<(), Box<dyn std::error::Error>> {
         error!("[CUSTOMBOT] Command updating not implemented");
+        self.commands.insert(command.to_string(), value.to_string());
         Ok(())
     }
 }
