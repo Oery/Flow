@@ -25,8 +25,6 @@ pub struct Context {
     #[serde(skip_serializing)]
     pub twitch_access_token: String,
     #[serde(skip_serializing)]
-    pub nightbot_access_token: String,
-    #[serde(skip_serializing)]
     pub custom_bot_token: String,
 }
 
@@ -35,7 +33,6 @@ impl Default for Context {
         Self {
             streamer: Streamer::default(),
             twitch_access_token: "".to_string(),
-            nightbot_access_token: "".to_string(),
             custom_bot_token: "".to_string(),
             custom_bot_id: "".to_string(),
             client: "?".to_string(),
