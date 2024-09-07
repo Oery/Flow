@@ -1,12 +1,13 @@
 use crate::api;
 use crate::auth::vault;
-use crate::states::{context::AppState, structs::Streamer};
+use crate::states::context::update_context;
+use crate::states::structs::Streamer;
 
 use log::error;
-use tauri::{AppHandle, Manager, State};
+use tauri::{AppHandle, Manager};
 
 #[tauri::command]
-pub async fn log_out(app: AppHandle, app_state: State<'_, AppState>) -> Result<(), String> {
+pub async fn log_out(app: AppHandle) -> Result<(), String> {
     let token = match vault::get_token("Twitch") {
         Ok(token) => token,
         Err(_) => {
@@ -25,14 +26,11 @@ pub async fn log_out(app: AppHandle, app_state: State<'_, AppState>) -> Result<(
         return Err(err.to_string());
     }
 
-    let mut locked_app_state = app_state.context.write().await;
-    *locked_app_state = {
-        let mut app_state = locked_app_state.clone();
-        app_state.twitch_access_token = "".to_string();
-        app_state.streamer = Streamer::default();
-        let _ = app.emit_all("update-context", &app_state);
-        app_state
-    };
+    update_context("twitch_access_token", serde_json::json!(""), &app).await;
+    update_context("streamer", serde_json::json!(Streamer::default()), &app).await;
+
+    // TODO: Stop Event Loop
+    // TODO: Reload Context / Reload App
 
     Ok(())
 }
