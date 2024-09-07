@@ -18,6 +18,10 @@ export default function DebugMenu() {
             <button onClick={() => invoke("close_custom_bot_auth")} type="button">
                 Close FlowBot Window
             </button>
+
+            <button onClick={() => invoke("log_out")} type="button">
+                Log out
+            </button>
         </>
     );
 }
