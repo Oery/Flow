@@ -72,7 +72,7 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
                 onBlur={() => setPreview([])}
                 onFocus={(event) => handlePreview(event.target.value)}
             />
-            {preview && (
+            {preview.length > 0 && (
                 <p>
                     {preview.map((word, index) => {
                         if (typeof word === "string") return word;
