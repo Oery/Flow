@@ -1,6 +1,7 @@
 use reqwest::Result;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 // https://dev.twitch.tv/docs/api/reference/#get-channel-emotes
 
@@ -17,7 +18,7 @@ pub struct GetEmotesResponse {
     template: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
 pub struct Emote {
     pub id: String,
     pub name: String,

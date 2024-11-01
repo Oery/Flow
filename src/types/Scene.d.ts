@@ -9,4 +9,4 @@ interface Scenes {
     scenes: Scene[];
 }
 
-export { Scene, Scenes };
+export type { Scene, Scenes };

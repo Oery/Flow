@@ -10,8 +10,9 @@ use std::path::Path;
 use std::sync::Arc;
 use tauri::{AppHandle, Manager, State};
 use tokio::sync::RwLock;
+use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
 pub struct Alias {
     pub alias: String,
     pub hidden: bool,
@@ -32,7 +33,7 @@ impl Alias {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
 pub struct Aliases {
     pub packs: HashMap<String, Alias>,
     pub servers: HashMap<String, Alias>,
@@ -47,7 +48,8 @@ impl Aliases {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, TS)]
+#[ts(export)]
 pub struct Settings {
     pub enable: bool,
     pub streaming_only: bool,

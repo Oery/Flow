@@ -43,6 +43,7 @@ log = "0.4.22"
 pretty_env_logger = "0.5.0"
 fern = { version = "0.6.2", features = ["colored"] }
 chrono = "0.4.38"
+ts-rs = { version = "9.0.1", features = ["indexmap-impl"] }
 
 [dependencies.windows]
 version = "0.58.0"

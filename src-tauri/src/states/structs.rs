@@ -1,8 +1,9 @@
 use crate::api::twitch::Emote;
 
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, TS)]
 pub struct Streamer {
     pub display_name: String,
     pub id: String,
@@ -23,7 +24,7 @@ impl Default for Streamer {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, TS)]
 pub enum IngameStatus {
     Lobby,
     Queuing,
