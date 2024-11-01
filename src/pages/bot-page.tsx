@@ -1,37 +1,36 @@
-import BackArrow from "../components/ui/back-arrow";
-import { useTranslation } from "react-i18next";
-import styles from "../styles/Settings.module.css";
-import Module from "../components/Module";
-import BotInput from "../components/ui/bot-input";
-import { useSettings } from "../components/SettingsContext";
+import BackArrow from '@/components/ui/back-arrow';
+import styles from '@/styles/Settings.module.css';
+import BotInput from '@/components/ui/bot-input';
+import Module from '@/components/module';
+import { useSettings } from '@/hooks/settings';
+import textStyles from '@/styles/TextInput.module.css';
 
-import { open } from "@tauri-apps/api/shell";
-
-import textStyles from "../styles/TextInput.module.css";
-import { invoke } from "@tauri-apps/api";
-import { useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { open } from '@tauri-apps/api/shell';
+import { invoke } from '@tauri-apps/api';
+import { useState } from 'react';
 
 export default function BotPage() {
     const { t } = useTranslation();
     const { settings } = useSettings();
-    const [wizebotApiKey, setWizebotApiKey] = useState<string>("");
+    const [wizebotApiKey, setWizebotApiKey] = useState<string>('');
 
     const nightbotUrl =
-        "https://nightbot.tv/oauth2/authorize?client_id=decbae04d2836ff99a244c5767d7a851&response_type=code&redirect_uri=http:%2F%2Flocalhost:8458&scope=channel%20commands";
+        'https://nightbot.tv/oauth2/authorize?client_id=decbae04d2836ff99a244c5767d7a851&response_type=code&redirect_uri=http:%2F%2Flocalhost:8458&scope=channel%20commands';
 
     return (
         <>
             <header>
-                <BackArrow destination="/" />
+                <BackArrow destination='/' />
                 <h1 className='text-flow-primary text-[34px]'>{t('Twitch Bot')}</h1>
             </header>
 
             <div className={styles.settings}>
                 <p className='text-flow-primary'>
-                    {t("Bot Developers limits how Flow can interact with your Bot.")}
+                    {t('Bot Developers limits how Flow can interact with your Bot.')}
                     <br />
                     {t(
-                        "For the best experience, I recommend using Flow with a custom Bot or your own account."
+                        'For the best experience, I recommend using Flow with a custom Bot or your own account.',
                     )}
                 </p>
                 <ul>
@@ -51,57 +50,57 @@ export default function BotPage() {
                         create them manually.
                     </li>
                 </ul>
-                <Module title={t("Twitch Bot")} column={true}>
+                <Module title={t('Twitch Bot')} column={true}>
                     <BotInput />
                 </Module>
 
-                {settings.twitch_bot === "custom" && (
-                    <Module title={t("Custom Bot")}>
-                        <button type="button" onClick={() => invoke("start_custom_bot_auth")}>
+                {settings.twitch_bot === 'custom' && (
+                    <Module title={t('Custom Bot')}>
+                        <button type='button' onClick={() => invoke('start_custom_bot_auth')}>
                             Connect to Custom Bot
                         </button>
                     </Module>
                 )}
 
-                {settings.twitch_bot === "nightbot" && (
-                    <Module title={t("Nightbot")}>
+                {settings.twitch_bot === 'nightbot' && (
+                    <Module title={t('Nightbot')}>
                         <button
-                            type="button"
+                            type='button'
                             onClick={() => {
                                 open(nightbotUrl);
-                                invoke("start_nightbot_server")
+                                invoke('start_nightbot_server')
                                     .then(() => {
-                                        console.log("Nightbot server started");
+                                        console.log('Nightbot server started');
                                     })
                                     .catch((e) => {
-                                        console.error("Error while starting nightbot server : ", e);
+                                        console.error('Error while starting nightbot server : ', e);
                                     });
                             }}
                         >
-                            {t("Connect to Nightbot")}
+                            {t('Connect to Nightbot')}
                         </button>
                     </Module>
                 )}
 
-                {settings.twitch_bot === "wizebot" && (
-                    <Module title={t("WizeBot API Key")} column={true}>
+                {settings.twitch_bot === 'wizebot' && (
+                    <Module title={t('WizeBot API Key')} column={true}>
                         <input
                             className={textStyles.textinput}
-                            type="password"
-                            id="wizebot_apikey"
-                            placeholder="Enter your Wizebot API Key"
+                            type='password'
+                            id='wizebot_apikey'
+                            placeholder='Enter your Wizebot API Key'
                             value={wizebotApiKey}
                             onChange={(e) => {
                                 setWizebotApiKey(e.target.value);
-                                invoke("set_bot_token", {
-                                    bot: "wizebot",
+                                invoke('set_bot_token', {
+                                    bot: 'wizebot',
                                     token: e.target.value,
                                 })
                                     .then(() => {
-                                        console.log("Wizebot token set");
+                                        console.log('Wizebot token set');
                                     })
                                     .catch((e) => {
-                                        console.error("Error while setting Wizebot token : ", e);
+                                        console.error('Error while setting Wizebot token : ', e);
                                     });
                             }}
                         />

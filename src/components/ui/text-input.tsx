@@ -1,14 +1,16 @@
-import { invoke } from "@tauri-apps/api";
-import styles from "../../styles/TextInput.module.css";
-import { useSettings } from "../SettingsContext";
-import { useState } from "react";
-import { useAppContext } from "../AppContext";
-import type { Emote } from "../../types/Emote";
+import styles from '@/styles/TextInput.module.css';
+import { useSettings } from '@/hooks/settings';
+import { useAppContext } from '@/hooks/app-context';
+import type { Emote } from '@/types/Emote';
+import type { Settings } from '@/types/Settings';
+
+import { useState } from 'react';
+import { invoke } from '@tauri-apps/api';
 
 type Timeout = ReturnType<typeof setTimeout>;
 
 interface Props {
-    setting: string;
+    setting: keyof Settings;
     group?: string;
     placeholder: string;
     password?: boolean;
@@ -21,8 +23,8 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
     const [debounceTimeout, setDebounceTimeout] = useState<Timeout | null>(null);
 
     const updatePreview = (value: string) => {
-        invoke<string>("preview_command", { cmdName: setting, cmdText: value }).then((res) => {
-            const previewWithEmotes = res.split(" ").map((word) => {
+        invoke<string>('preview_command', { cmdName: setting, cmdText: value }).then((res) => {
+            const previewWithEmotes = res.split(' ').map((word) => {
                 const emote = appContext.streamer.emotes.find((emote) => emote.name === word);
                 if (emote) return emote;
                 return `${word} `;
@@ -34,13 +36,13 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
 
     const updateCommand = () => {
         if (!group) return;
-        invoke("update_command", { group, cmdName: setting }).then((_) =>
-            console.log("Updated command")
+        invoke('update_command', { group, cmdName: setting }).then((_) =>
+            console.log('Updated command'),
         );
     };
 
     const handlePreview = (input: string) => {
-        if (setting.endsWith("_text")) {
+        if (setting.endsWith('_text')) {
             updatePreview(input);
         }
     };
@@ -61,13 +63,13 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
     return (
         <>
             <input
-                type={password ? "password" : "text"}
+                type={password ? 'password' : 'text'}
                 id={setting}
                 placeholder={placeholder}
-                className={styles.textinput}
-                autoComplete="off"
-                spellCheck="false"
-                value={settings[setting] as string}
+                className={`${styles.textinput} placeholder:text-[#545454]`}
+                autoComplete='off'
+                spellCheck='false'
+                value={settings[setting]}
                 onChange={handleChange}
                 onBlur={() => setPreview([])}
                 onFocus={(event) => handlePreview(event.target.value)}
@@ -75,13 +77,13 @@ export default function TextInput({ group, setting, placeholder, password }: Pro
             {preview.length > 0 && (
                 <p>
                     {preview.map((word, index) => {
-                        if (typeof word === "string") return word;
+                        if (typeof word === 'string') return word;
                         return (
                             <img
                                 src={word.image_url}
                                 alt={word.name}
                                 key={`${word.name}-${index}`}
-                                style={{ verticalAlign: "middle" }}
+                                style={{ verticalAlign: 'middle' }}
                             />
                         );
                     })}

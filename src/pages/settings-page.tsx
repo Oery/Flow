@@ -1,57 +1,57 @@
-import { useTranslation } from "react-i18next";
-import BackArrow from "../components/ui/back-arrow";
-import Module from "../components/Module";
-// import TextInput from "../components/TextInput";
-import ToggleButton from "../components/ui/toggle-button";
-import { useSettings } from "../components/SettingsContext";
+import BackArrow from '@/components/ui/back-arrow';
+import Module from '@/components/module';
+import ToggleButton from '@/components/ui/toggle-button';
+import { useSettings } from '@/hooks/settings';
+import styles from '@/styles/Settings.module.css';
+import selectstyles from '@/styles/SelectInput.module.css';
 
-import styles from "../styles/Settings.module.css";
-import selectstyles from "../styles/SelectInput.module.css";
-import { enable, disable } from "tauri-plugin-autostart-api";
+import { enable, disable } from 'tauri-plugin-autostart-api';
+import { useTranslation } from 'react-i18next';
 
 function SettingsPage() {
     const { t, i18n } = useTranslation();
     const { updateSetting } = useSettings();
 
     const handleLangChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        updateSetting("language", event.target.value);
+        updateSetting('language', event.target.value);
         i18n.changeLanguage(event.target.value);
     };
 
     return (
         <>
             <header>
-                <BackArrow destination="/" />
+                <BackArrow destination='/' />
                 <h1 className='text-flow-primary text-[34px]'>{t('Settings')}</h1>
             </header>
 
             <div className={styles.settings}>
-                <Module title={t("Language")}>
+                <Module title={t('Language')}>
                     <select
                         className={selectstyles.selectinput}
                         style={{
-                            width: "fit-content",
+                            width: 'fit-content',
                         }}
-                        name="language"
-                        id="language"
+                        name='language'
+                        id='language'
                         onChange={handleLangChange}
                         value={i18n.language}
                     >
-                        <option value="en">English</option>
-                        <option value="fr">Français</option>
+                        <option value='en'>English</option>
+                        <option value='fr'>Français</option>
                     </select>
                 </Module>
 
-                <Module title={t("Start with Windows")}>
+                <Module title={t('Start with Windows')}>
                     <ToggleButton
-                        setting="start_with_windows"
+                        setting='start_with_windows'
                         callback={(value) => {
                             const task = value ? disable() : enable();
-                            task.then(() => console.log("Start with Windows changed to", value));
+                            task.then(() => console.log('Start with Windows changed to', value));
                         }}
                     />
                 </Module>
 
+                {/* TODO: Add those features */}
                 {/* <Module title={t("Streaming Only")}>
                     <ToggleButton setting="streaming_only" />
                 </Module>

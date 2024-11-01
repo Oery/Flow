@@ -1,7 +1,8 @@
-import { useTranslation } from "react-i18next";
-import HomeModule from "../components/HomeModule";
-import styles from "../styles/Home.module.css";
-import DebugMenu from "../components/debug-menu";
+import HomeModule from '@/components/home-module';
+import styles from '@/styles/Home.module.css';
+import DebugMenu from '@/components/debug-menu';
+
+import { useTranslation } from 'react-i18next';
 
 export default function HomePage() {
     const { t } = useTranslation();
@@ -14,11 +15,10 @@ export default function HomePage() {
             </header>
 
             <main className={styles.home}>
-                <HomeModule title={t("Queuing Scene")} module="scenes" link="/scene" />
-                <HomeModule title="Resource Packs" module="pack" link="/dynpack" />
-                <HomeModule title={t("Server Address")} module="server" link="/dynip" />
-                <HomeModule title={t("Music")} module="music" link="/music" />
-                {/* <HomeModule title="Stats" module="stats" link="/stats" /> */}
+                <HomeModule title={t('Queuing Scene')} setting='scenes_enable' link='/scene' />
+                <HomeModule title='Resource Packs' setting='pack_enable' link='/dynpack' />
+                <HomeModule title={t('Server Address')} setting='server_enable' link='/dynip' />
+                <HomeModule title={t('Music')} setting='music_enable' link='/music' />
 
                 {isDebug && <DebugMenu />}
             </main>

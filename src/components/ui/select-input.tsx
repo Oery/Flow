@@ -1,8 +1,9 @@
-import { useSettings } from "../SettingsContext";
-import styles from "../../styles/SelectInput.module.css";
+import { useSettings } from '@/hooks/settings';
+import styles from '@/styles/SelectInput.module.css';
+import type { Settings } from '@/types/Settings';
 
 interface Props {
-    setting: string;
+    setting: keyof Settings;
     choices: string[];
     placeholder: string;
 }
@@ -19,7 +20,7 @@ export default function SelectInput({ setting, choices, placeholder }: Props) {
             {choices.length > 0 && (
                 <select
                     onChange={handleChange}
-                    value={settings[setting] as string}
+                    value={settings[setting]}
                     className={styles.selectinput}
                 >
                     {choices.map((choice) => (
@@ -32,7 +33,7 @@ export default function SelectInput({ setting, choices, placeholder }: Props) {
 
             {choices.length === 0 && (
                 <select disabled className={styles.selectinput}>
-                    <option value="No scene">{placeholder}</option>
+                    <option value='No scene'>{placeholder}</option>
                 </select>
             )}
         </>

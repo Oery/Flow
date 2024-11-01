@@ -1,8 +1,9 @@
-import styles from "../../styles/ToggleButton.module.css";
-import { useSettings } from "../SettingsContext";
+import styles from '@/styles/ToggleButton.module.css';
+import { useSettings } from '@/hooks/settings';
+import type { Settings } from '@/types/Settings';
 
 interface Props {
-    setting: string;
+    setting: keyof Settings;
     callback?: (value: boolean | string) => void;
 }
 
@@ -17,9 +18,9 @@ function ToggleButton({ setting, callback }: Props) {
     return (
         <label className={styles.toggle}>
             <input
-                type="checkbox"
+                type='checkbox'
                 id={setting}
-                checked={(settings[setting] as boolean) ? (settings[setting] as boolean) : false}
+                checked={settings[setting] ? settings[setting] : false}
                 onChange={handleClick}
             />
             <span className={styles.slider} />
