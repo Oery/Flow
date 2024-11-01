@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { type Event, listen } from '@tauri-apps/api/event';
 import { Outlet } from 'react-router-dom';
 import { invoke } from '@tauri-apps/api/tauri';
+import Nav from '@/components/nav';
 
 export default function Root() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -44,6 +45,7 @@ export default function Root() {
                             <Titlebar />
 
                             <div className={styles.maincontainer}>
+                                <Nav />
                                 <main className=' bg-flow-secondary'>
                                     <Outlet />
                                 </main>
