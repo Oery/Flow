@@ -47,7 +47,6 @@ export default function BotInput() {
                 onChange={(e) => handleChange(e.target.value)}
                 className={styles.selectinput}
                 value={settings.twitch_bot}
-                placeholder='Select a bot'
             >
                 <option value='self'>Self</option>
                 <option value='custom'>Custom</option>
