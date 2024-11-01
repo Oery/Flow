@@ -1,5 +1,5 @@
-import { type PropsWithChildren, Children } from "react";
-import styles from "../styles/Module.module.css";
+import { type PropsWithChildren, Children } from 'react';
+import styles from '../styles/Module.module.css';
 
 interface Props {
     title: string | string[];
@@ -7,9 +7,9 @@ interface Props {
 }
 
 function Module({ title, children, column }: PropsWithChildren<Props>) {
-    if (typeof title === "object") {
+    if (typeof title === 'object') {
         if (title.length !== Children.count(children)) {
-            console.error("The number of titles and children should be the same.");
+            console.error('The number of titles and children should be the same.');
             return null;
         }
 
