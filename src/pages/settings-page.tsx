@@ -22,7 +22,7 @@ function SettingsPage() {
         <>
             <header>
                 <BackArrow destination="/" />
-                <h1>{t("Settings")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Settings')}</h1>
             </header>
 
             <div className={styles.settings}>

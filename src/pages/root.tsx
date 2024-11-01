@@ -36,7 +36,7 @@ export default function Root() {
     }, []);
 
     return (
-        <>
+        <main className='bg-flow-secondary w-screen'>
             <title>Flow</title>
             <SettingsProvider>
                 <AppProvider>
@@ -47,52 +47,15 @@ export default function Root() {
                             <Titlebar />
 
                             <div className={styles.maincontainer}>
-                                <div className={styles.sidebar}>
-                                    <header>
-                                        <h1>Flow</h1>
-                                    </header>
-                                    <nav>
-                                        <ul>
-                                            <div>
-                                                <NavElement title={t("Home")} link="" />
-                                                <NavElement title={t("Scene")} link="scene" />
-                                                <NavElement title={t("Packs")} link="dynpack" />
-                                                <NavElement title={t("Server")} link="dynip" />
-                                                <NavElement title={t("Music")} link="music" />
-                                                <NavElement title={t("Bot")} link="bot" />
-                                                {/* <NavElement
-                                                    title="Stats"
-                                                    link="stats"
-                                                /> */}
-                                            </div>
-
-                                            <footer>
-                                                <NavElement title={t("Settings")} link="settings" />
-                                                <NavElement
-                                                    title={t("Exit")}
-                                                    link="log-out"
-                                                    handleClick={() => {
-                                                        appWindow.close();
-                                                    }}
-                                                />
-                                            </footer>
-                                        </ul>
-                                    </nav>
-                                </div>
-
-                                <main>
-                                    {/* <div>{JSON.stringify(settings)}</div> */}
-                                    {/* <button onClick={handleClick}>LOAD SETTINGS</button> */}
-
+                                <main className=' bg-flow-secondary'>
                                     <Outlet />
                                 </main>
-
                                 <AsideInfo />
                             </div>
                         </>
                     )}
                 </AppProvider>
             </SettingsProvider>
-        </>
+        </main>
     );
 }

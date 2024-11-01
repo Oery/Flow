@@ -10,7 +10,7 @@ export default function HomePage() {
     return (
         <>
             <header>
-                <h1>{t("Home")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Home')}</h1>
             </header>
 
             <main className={styles.home}>

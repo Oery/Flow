@@ -19,7 +19,7 @@ export default function ServerPage() {
         <>
             <header>
                 <BackArrow destination="/" />
-                <h1>{t("Server Address")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Server Address')}</h1>
                 <ToggleButton setting="server_enable" />
             </header>
 

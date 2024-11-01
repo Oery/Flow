@@ -23,11 +23,11 @@ export default function BotPage() {
         <>
             <header>
                 <BackArrow destination="/" />
-                <h1>{t("Twitch Bot")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Twitch Bot')}</h1>
             </header>
 
             <div className={styles.settings}>
-                <p>
+                <p className='text-flow-primary'>
                     {t("Bot Developers limits how Flow can interact with your Bot.")}
                     <br />
                     {t(

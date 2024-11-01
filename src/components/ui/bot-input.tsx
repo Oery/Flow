@@ -2,10 +2,10 @@
 // import BotModalWizeBot from "./BotModalWizeBot";
 // import BotModalNightbot from "./BotModalNightbot";
 // import BotModalCustom from "./BotModalCustom";
-import { useSettings } from "../SettingsContext";
-import { invoke } from "@tauri-apps/api/tauri";
+import { useSettings } from '@/hooks/settings';
+import styles from '@/styles/SelectInput.module.css';
 
-import styles from "../../styles/SelectInput.module.css";
+import { invoke } from '@tauri-apps/api/tauri';
 
 export default function BotInput() {
     // const nightbot = useRef<HTMLDialogElement | null>(null);
@@ -18,9 +18,9 @@ export default function BotInput() {
     }
 
     function trySetBot(bot: string) {
-        invoke("set_current_bot", { bot: bot as string })
-            .then(() => updateSetting("twitch_bot", bot))
-            .catch((e) => console.error("Error setting bot:", e));
+        invoke('set_current_bot', { bot })
+            .then(() => updateSetting('twitch_bot', bot))
+            .catch((e) => console.error('Error setting bot:', e));
     }
 
     // function setBot(bot: string) {
@@ -46,13 +46,13 @@ export default function BotInput() {
             <select
                 onChange={(e) => handleChange(e.target.value)}
                 className={styles.selectinput}
-                value={settings.twitch_bot as string}
-                placeholder="Select a bot"
+                value={settings.twitch_bot}
+                placeholder='Select a bot'
             >
-                <option value="self">Self</option>
-                <option value="custom">Custom</option>
-                <option value="nightbot">Nightbot</option>
-                <option value="wizebot">WizeBot</option>
+                <option value='self'>Self</option>
+                <option value='custom'>Custom</option>
+                <option value='nightbot'>Nightbot</option>
+                <option value='wizebot'>WizeBot</option>
             </select>
 
             {/* <BotModalWizeBot ref={wizebot} /> */}

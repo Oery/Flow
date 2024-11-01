@@ -16,7 +16,7 @@ export default function MusicPage() {
         <>
             <header>
                 <BackArrow destination="/" />
-                <h1>{t("Music")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Music')}</h1>
                 <ToggleButton setting="music_enable" />
             </header>
 

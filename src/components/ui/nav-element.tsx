@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 interface Props {
     title: string;
@@ -8,9 +8,10 @@ interface Props {
 
 function NavElement({ title, link, handleClick }: Props) {
     return (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <li onClick={handleClick}>
             <Link to={link}>
-                <h3>{title}</h3>
+                <h3 className='text-2xl leading-[35px]  text-flow-primary'>{title}</h3>
             </Link>
         </li>
     );

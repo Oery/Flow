@@ -20,7 +20,7 @@ export default function PackPage() {
         <>
             <header>
                 <BackArrow destination="/" />
-                <h1>{t("Resource Packs")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Resource Packs')}</h1>
                 <ToggleButton setting="pack_enable" />
             </header>
 

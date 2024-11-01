@@ -26,7 +26,7 @@ export default function ScenePage() {
         <>
             <header>
                 <BackArrow destination="/" />
-                <h1>{t("Queuing Scene")}</h1>
+                <h1 className='text-flow-primary text-[34px]'>{t('Queuing Scene')}</h1>
                 <ToggleButton setting="scenes_enable" />
             </header>
 

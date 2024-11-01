@@ -5,6 +5,8 @@
     gap: 20px;
     height: calc(100vh - 106px);
     align-content: start;
+
+    width: calc(100vw - 260px - 260px);
 }
 
 .home > div {

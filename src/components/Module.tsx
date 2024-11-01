@@ -17,8 +17,8 @@ function Module({ title, children, column }: PropsWithChildren<Props>) {
             <div className={styles.module}>
                 {title.map((text, index) => {
                     return (
-                        <div key={text} className={`${column ? styles.column : ""}`}>
-                            <h3>{text}</h3>
+                        <div key={text} className={`${column ? styles.column : ''}`}>
+                            <h3 className='text-flow-primary text-2xl'>{text}</h3>
                             {Children.toArray(children)[index]}
                         </div>
                     );
@@ -28,8 +28,8 @@ function Module({ title, children, column }: PropsWithChildren<Props>) {
     }
 
     return (
-        <div className={`${styles.module} ${column ? styles.column : ""}`}>
-            <h3>{title}</h3>
+        <div className={`${styles.module} ${column ? styles.column : ''}`}>
+            <h3 className='text-flow-primary text-2xl'>{title}</h3>
             {children}
         </div>
     );

@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { useAppContext } from "../AppContext";
+import { useTranslation } from 'react-i18next';
+import { useAppContext } from '../../hooks/app-context';
 
 export default function MusicStatus() {
     const appContext = useAppContext();
@@ -7,12 +7,12 @@ export default function MusicStatus() {
 
     return (
         <div>
-            <h3>{t("Music")}</h3>
-            <p>
-                {t("Title")} : {appContext.song_title as string}
+            <h3 className='text-flow-primary text-2xl'>{t('Music')}</h3>
+            <p className='text-flow-primary'>
+                {t('Title')} : {appContext.song_title}
             </p>
-            <p>
-                {t("Artist")} : {appContext.song_author as string}
+            <p className='text-flow-primary'>
+                {t('Artist')} : {appContext.song_author}
             </p>
         </div>
     );

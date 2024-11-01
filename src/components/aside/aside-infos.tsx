@@ -1,10 +1,10 @@
-import { useAppContext } from "../AppContext";
-import styles from "../../styles/AsideInfo.module.css";
-import BotStatus from "./bot-status";
+import { useAppContext } from '@/hooks/app-context';
+import styles from '@/styles/AsideInfo.module.css';
 
-import ClientStatus from "./client-status";
-import ObsStatus from "./obs-status";
-import MusicStatus from "./music-status";
+import BotStatus from './bot-status';
+import ClientStatus from './client-status';
+import ObsStatus from './obs-status';
+import MusicStatus from './music-status';
 
 export default function AsideInfo() {
     const appContext = useAppContext();
@@ -14,7 +14,9 @@ export default function AsideInfo() {
     return (
         <aside className={styles.aside}>
             <header>
-                <h1>{appContext.streamer.display_name}</h1>
+                <h1 className='text-flow-primary text-[34px]'>
+                    {appContext.streamer.display_name}
+                </h1>
             </header>
 
             <div>
