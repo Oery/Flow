@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use reqwest::Result;
 use serde::{Deserialize, Serialize};
 
@@ -14,6 +16,7 @@ struct RefreshTokenResponse {
 pub async fn refresh_twitch_token(expired_token: String) -> Result<String> {
     let res = reqwest::Client::new()
         .post("https://api.oery.dev/auth/twitch/refresh")
+        .timeout(Duration::from_secs(5))
         .json(&RefreshTokenRequest { expired_token })
         .send()
         .await?
