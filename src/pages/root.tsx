@@ -14,13 +14,12 @@ import Nav from '@/components/nav';
 
 export default function Root() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [stopLoader, setStopLoader] = useState<boolean>(false);
-    const { t } = useTranslation();
+    const [showLoadingScreen, setShowLoadingScreen] = useState<boolean>(true);
 
     useEffect(() => {
         const unlisten = listen('loading-end', (event: Event<boolean>) => {
             if (event.payload) {
-                setStopLoader(true);
+                setShowLoadingScreen(false);
                 invoke('start_event_loop');
                 setTimeout(() => {
                     setIsLoading(false);
@@ -39,7 +38,7 @@ export default function Root() {
             <SettingsProvider>
                 <AppProvider>
                     {isLoading ? (
-                        <LoadingScreen isLoading={stopLoader} />
+                        <LoadingScreen isLoading={showLoadingScreen} />
                     ) : (
                         <>
                             <Titlebar />
