@@ -48,7 +48,7 @@ pub async fn process_line<'a, 'b>(line: String, app: &AppHandle) -> Result<(), B
             if settings.scenes_toggle_after_game_end && settings.scenes_enable {
                 let app = app.clone();
                 tokio::spawn(async move {
-                    tokio::time::sleep(std::time::Duration::from_secs(settings.scenes_delay)).await;
+                    tokio::time::sleep(std::time::Duration::from_secs(settings.scenes_delay.into())).await;
                     set_screen(&app, &settings, false).await;
                 });
             }

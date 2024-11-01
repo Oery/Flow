@@ -65,7 +65,7 @@ pub struct Settings {
 
     pub scenes_enable: bool,
     pub scenes_name: String,
-    pub scenes_delay: u64,
+    pub scenes_delay: u16,
     pub scenes_hide_in_lobby: bool,
     pub scenes_toggle_after_game_end: bool,
     pub scenes_auto_obs_config: bool,
