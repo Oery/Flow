@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { listen } from '@tauri-apps/api/event';
 import { open } from '@tauri-apps/api/shell';
+import { invoke } from '@tauri-apps/api/tauri';
 
 const oauthUrl = new URL('https://id.twitch.tv/oauth2/authorize');
 const params = new URLSearchParams(oauthUrl.search);
@@ -57,6 +58,13 @@ export default function LoginDialogButton() {
                         onClick={() => open(oauthUrlString)}
                     >
                         Login with Twitch
+                    </button>
+                    <button
+                        type='button'
+                        className='text-sm p-3 px-5 rounded-full text-flow-primary'
+                        onClick={() => invoke('close_login_modal')}
+                    >
+                        Offline Mode
                     </button>
                 </DialogFooter>
             </DialogContent>
