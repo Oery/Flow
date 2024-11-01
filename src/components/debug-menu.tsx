@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/tauri';
+import LoginDialogButton from './ui/login-dialog-button';
 
 export default function DebugMenu() {
     return (
@@ -22,6 +23,8 @@ export default function DebugMenu() {
             <button onClick={() => invoke('log_out')} type='button'>
                 Log out
             </button>
+
+            <LoginDialogButton />
         </>
     );
 }
