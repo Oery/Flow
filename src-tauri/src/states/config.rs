@@ -93,10 +93,6 @@ pub struct Settings {
     pub music_announcements_enable: bool,
     pub music_announce_text: String,
 
-    pub stats_enable: bool,
-    pub stats_labels_folder: String,
-    pub stats_username: String,
-
     pub aliases: Aliases,
 }
 
@@ -146,10 +142,6 @@ impl Default for Settings {
             music_command_text: "🎵 : {title} - {artist}".to_string(),
             music_announcements_enable: true,
             music_announce_text: "🎵 Now playing : {title} - {artist} 🎵".to_string(),
-
-            stats_enable: false,
-            stats_labels_folder: "./labels".to_string(),
-            stats_username: "".to_string(),
 
             aliases: Aliases::new(),
         }
