@@ -10,7 +10,6 @@ import PackPage from "./pages/pack-page";
 import MusicPage from "./pages/music-page";
 import ServerPage from "./pages/server-page";
 import BotPage from "./pages/bot-page";
-// import StatsPage from "./routes/StatsPage";
 
 import "./i18n";
 
@@ -28,7 +27,6 @@ const router = createBrowserRouter([
             { path: "dynip", element: <ServerPage /> },
             { path: "music", element: <MusicPage /> },
             { path: "bot", element: <BotPage /> },
-            // { path: "stats", element: <StatsPage /> },
         ],
     },
 ]);
