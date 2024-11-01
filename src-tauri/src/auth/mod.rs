@@ -57,8 +57,9 @@ fn start_oauth_server(app: AppHandle) -> Result<(), Box<dyn Error>> {
     let _ = start_with_config(config, move |url| {
         let app = app.clone();
         tauri::async_runtime::spawn(async move {
-            if let Err(e) = handle_login_flow(app, url).await {
+            if let Err(e) = handle_login_flow(&app, url).await {
                 error!("[TWITCH] Error handling login flow: {:?}", e);
+                let _ = &app.emit_all("show-login-modal", true);
             }
         });
     });
@@ -66,12 +67,11 @@ fn start_oauth_server(app: AppHandle) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn handle_login_flow(app: AppHandle, url: String) -> Result<(), Box<dyn Error>> {
-    let _ = &app.emit_all("logging-in", false);
+async fn handle_login_flow(app: &AppHandle, url: String) -> Result<(), Box<dyn Error>> {
+    let _ = app.emit_all("show-login-modal", false);
 
     let authorization_code = get_code_from_url(url)?;
     let token = api::flow::get_twitch_token(authorization_code).await?;
-    let _ = &app.emit_all("logging-in", true);
 
     api::twitch::validate_token(&token).await?;
     vault::store_token("Twitch", &token)?;
@@ -94,7 +94,7 @@ pub async fn load_app(app: AppHandle) -> Result<(), String> {
         return Ok(());
     }
 
-    let _ = app.emit_all("logging-in", false);
+    let _ = app.emit_all("show-login-modal", true);
     start_oauth_server(app).map_err(|e| e.to_string())?;
 
     Ok(())
