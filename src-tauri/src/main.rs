@@ -110,6 +110,7 @@ fn main() {
         auth::twitch::log_out,
         auth::custom_bot_auth::start_custom_bot_auth,
         auth::twitch::close_custom_bot_auth,
+        auth::close_login_modal,
         states::context::load_context,
         bot_manager::get_current_bot,
         bot_manager::set_bot_token,

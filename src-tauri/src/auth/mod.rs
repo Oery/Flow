@@ -99,3 +99,10 @@ pub async fn load_app(app: AppHandle) -> Result<(), String> {
 
     Ok(())
 }
+
+#[tauri::command]
+pub async fn close_login_modal(app: AppHandle) -> Result<(), String> {
+    let _ = app.emit_all("show-login-modal", false);
+    let _ = app.emit_all("loading-end", true);
+    Ok(())
+}
