@@ -6,7 +6,6 @@ use crate::states::config::Settings;
 
 use async_trait::async_trait;
 use log::{error, info};
-use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 use tauri::AppHandle;
@@ -31,7 +30,6 @@ struct CommandResponse {
 pub struct Nightbot {
     token: String,
     prefix: String,
-    client: Client,
 }
 
 #[async_trait]
@@ -80,7 +78,6 @@ impl Nightbot {
             token: get_token("Nightbot")?,
             prefix: settings.bot_prefix.clone(),
             // commands: Vec::new(),
-            client: Client::new(),
         })
     }
 
