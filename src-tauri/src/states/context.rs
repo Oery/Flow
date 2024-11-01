@@ -99,7 +99,6 @@ pub async fn update_context(key: &str, value: serde_json::Value, app: &AppHandle
 
         "ingame_status" => app_state.ingame_status = serde_json::from_value(value.clone()).unwrap_or(IngameStatus::Unknown),
         "streamer" => app_state.streamer = serde_json::from_value(value.clone()).unwrap_or(Streamer::default()),
-        "custom_bot_id" => app_state.custom_bot_id = value.as_str().unwrap_or("").to_string(),
 
         "twitch_access_token" => app_state.twitch_access_token = value.as_str().unwrap_or("").to_string(),
         _ => error!("[CONTEXT] Unknown key : {}", key),
